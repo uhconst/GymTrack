@@ -1,13 +1,11 @@
-package com.uhc.gymtrack.android.note_list
+package com.uhc.gymtrack.android.exercise.list
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.uhc.gymtrack.domain.note.Note
-import com.uhc.gymtrack.domain.note.NoteDataSource
-import com.uhc.gymtrack.domain.note.SearchNotes
-import com.uhc.gymtrack.domain.time.DateTimeUtil
-import com.uhc.gymtrack.presentation.RedOrangeHex
+import com.uhc.gymtrack.domain.exercise.Exercise
+import com.uhc.gymtrack.domain.exercise.ExerciseDataSource
+import com.uhc.gymtrack.domain.exercise.SearchExercises
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -16,28 +14,28 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NoteListViewModel @Inject constructor(
-    private val noteDataSource: NoteDataSource,
+class ExerciseListViewModel @Inject constructor(
+    private val exerciseDataSource: ExerciseDataSource,
     private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    private val searchNotes = SearchNotes()
+    private val searchExercises = SearchExercises()
 
-    private val notes = savedStateHandle.getStateFlow("notes", emptyList<Note>())
+    private val exercises = savedStateHandle.getStateFlow("exercises", emptyList<Exercise>())
     private val searchText = savedStateHandle.getStateFlow("searchText", "")
     private val isSearchActive = savedStateHandle.getStateFlow("isSearchActive", false)
 
-    val state = combine(notes, searchText, isSearchActive) { notes, searchText, isSearchActive ->
-        NoteListState(
-            notes = searchNotes.execute(notes, searchText),
+    val state = combine(exercises, searchText, isSearchActive) { exercises, searchText, isSearchActive ->
+        ExerciseListState(
+            exercises = searchExercises.execute(exercises, searchText),
             searchText = searchText,
             isSearchActive = isSearchActive
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), NoteListState())
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ExerciseListState())
 
-    fun loadNotes() {
+    fun loadExercises() {
         viewModelScope.launch {
-            savedStateHandle["notes"] = noteDataSource.getAllNotes()
+            savedStateHandle["exercises"] = exerciseDataSource.getAllExercises()
         }
     }
 
@@ -52,10 +50,10 @@ class NoteListViewModel @Inject constructor(
         }
     }
 
-    fun deleteNoteById(id: Long) {
+    fun deleteExerciseById(id: Long) {
         viewModelScope.launch {
-            noteDataSource.deleteNoteById(id)
-            loadNotes()
+            exerciseDataSource.deleteExerciseById(id)
+            loadExercises()
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.uhc.gymtrack.android.note_detail
+package com.uhc.gymtrack.android.exercise.detail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth

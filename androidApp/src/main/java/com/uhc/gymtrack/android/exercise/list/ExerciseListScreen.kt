@@ -1,4 +1,4 @@
-package com.uhc.gymtrack.android.note_list
+package com.uhc.gymtrack.android.exercise.list
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -28,27 +28,27 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun NoteListScreen(
+fun ExerciseListScreen(
     navController: NavController,
-    viewModel: NoteListViewModel = hiltViewModel()
+    viewModel: ExerciseListViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(key1 = true) {
-        viewModel.loadNotes()
+        viewModel.loadExercises()
     }
 
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate("note_detail/-1L")
+                    navController.navigate("exercise_detail/-1L")
                 },
                 backgroundColor = Color.Black
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Add note",
+                    contentDescription = "Add exercise",
                     tint = Color.White
                 )
             }
@@ -79,7 +79,7 @@ fun NoteListScreen(
                     exit = fadeOut()
                 ) {
                     Text(
-                        text = "All notes",
+                        text = "All exercises",
                         fontWeight = FontWeight.Bold,
                         fontSize = 30.sp
                     )
@@ -89,17 +89,17 @@ fun NoteListScreen(
                 modifier = Modifier.weight(1f)
             ) {
                 items(
-                    items = state.notes,
+                    items = state.exercises,
                     key = { it.id!! }
-                ) { note ->
-                    NoteItem(
-                        note = note,
-                        backgroundColor = Color(note.colorHex),
-                        onNoteClick = {
-                            navController.navigate("note_detail/${note.id}")
+                ) { exercise ->
+                    ExerciseItem(
+                        exercise = exercise,
+                        backgroundColor = Color(exercise.colorHex),
+                        onExerciseClick = {
+                            navController.navigate("exercise_detail/${exercise.id}")
                         },
                         onDeleteClick = {
-                            viewModel.deleteNoteById(note.id!!)
+                            viewModel.deleteExerciseById(exercise.id!!)
                         },
                         modifier = Modifier
                             .fillMaxWidth()

@@ -1,4 +1,4 @@
-package com.uhc.gymtrack.android.note_list
+package com.uhc.gymtrack.android.exercise.list
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

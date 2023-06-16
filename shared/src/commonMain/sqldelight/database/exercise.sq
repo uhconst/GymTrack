@@ -1,0 +1,30 @@
+CREATE TABLE exerciseEntity(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    weight TEXT NOT NULL,
+    colorHex INTEGER NOT NULL,
+    created INTEGER NOT NULL
+);
+
+getAllExercises:
+SELECT *
+FROM exerciseEntity;
+
+getExerciseById:
+SELECT *
+FROM exerciseEntity
+WHERE id = ?;
+
+insertExercise:
+INSERT OR REPLACE
+INTO exerciseEntity(
+    id,
+    name,
+    weight,
+    colorHex,
+    created
+) VALUES(?, ?, ?, ?, ?);
+
+deleteExerciseById:
+DELETE FROM exerciseEntity
+WHERE id = ?;

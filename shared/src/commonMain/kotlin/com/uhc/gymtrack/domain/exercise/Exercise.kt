@@ -1,12 +1,12 @@
-package com.uhc.gymtrack.domain.note
+package com.uhc.gymtrack.domain.exercise
 
 import com.uhc.gymtrack.presentation.*
 import kotlinx.datetime.LocalDateTime
 
-data class Note(
+data class Exercise(
     val id: Long?,
-    val title: String,
-    val content: String,
+    val name: String,
+    val weight: String,
     val colorHex: Long,
     val created: LocalDateTime
 ) {

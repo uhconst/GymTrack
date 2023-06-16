@@ -9,7 +9,7 @@ struct iOSApp: App {
 	var body: some Scene {
 		WindowGroup {
             NavigationView {
-                NoteListScreen(noteDataSource: databaseModule.noteDataSource)
+                ExerciseListScreen(exerciseDataSource: databaseModule.exerciseDataSource)
             }.accentColor(.black)
 		}
 	}

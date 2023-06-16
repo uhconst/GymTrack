@@ -61,7 +61,7 @@ kotlin {
 }
 
 sqldelight {
-    database("NoteDatabase") {
+    database("ExerciseDatabase") {
         packageName = "com.uhc.gymtrack.database"
         sourceFolders = listOf("sqldelight")
     }

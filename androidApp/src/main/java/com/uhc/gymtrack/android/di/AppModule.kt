@@ -2,9 +2,9 @@ package com.uhc.gymtrack.android.di
 
 import android.app.Application
 import com.uhc.gymtrack.data.local.DatabaseDriverFactory
-import com.uhc.gymtrack.data.note.SqlDelightNoteDataSource
-import com.uhc.gymtrack.database.NoteDatabase
-import com.uhc.gymtrack.domain.note.NoteDataSource
+import com.uhc.gymtrack.data.exercise.SqlDelightExerciseDataSource
+import com.uhc.gymtrack.database.ExerciseDatabase
+import com.uhc.gymtrack.domain.exercise.ExerciseDataSource
 import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
 import dagger.Provides
@@ -24,7 +24,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNoteDataSource(driver: SqlDriver): NoteDataSource {
-        return SqlDelightNoteDataSource(NoteDatabase(driver))
+    fun provideExerciseDataSource(driver: SqlDriver): ExerciseDataSource {
+        return SqlDelightExerciseDataSource(ExerciseDatabase(driver))
     }
 }

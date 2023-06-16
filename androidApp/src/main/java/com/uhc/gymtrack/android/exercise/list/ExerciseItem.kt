@@ -1,4 +1,4 @@
-package com.uhc.gymtrack.android.note_list
+package com.uhc.gymtrack.android.exercise.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,25 +18,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.uhc.gymtrack.domain.note.Note
+import com.uhc.gymtrack.domain.exercise.Exercise
 import com.uhc.gymtrack.domain.time.DateTimeUtil
 
 @Composable
-fun NoteItem(
-    note: Note,
+fun ExerciseItem(
+    exercise: Exercise,
     backgroundColor: Color,
-    onNoteClick: () -> Unit,
+    onExerciseClick: () -> Unit,
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val formattedDate = remember(note.created) {
-        DateTimeUtil.formatNoteDate(note.created)
+    val formattedDate = remember(exercise.created) {
+        DateTimeUtil.formatExerciseDate(exercise.created)
     }
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(5.dp))
             .background(backgroundColor)
-            .clickable { onNoteClick() }
+            .clickable { onExerciseClick() }
             .padding(16.dp)
     ) {
         Row(
@@ -45,13 +45,13 @@ fun NoteItem(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = note.title,
+                text = exercise.name,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 20.sp
             )
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = "Delete note",
+                contentDescription = "Delete exercise",
                 modifier = Modifier
                     .clickable(MutableInteractionSource(), null) {
                         onDeleteClick()
@@ -59,7 +59,7 @@ fun NoteItem(
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = note.content, fontWeight = FontWeight.Light)
+        Text(text = exercise.weight, fontWeight = FontWeight.Light)
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = formattedDate,

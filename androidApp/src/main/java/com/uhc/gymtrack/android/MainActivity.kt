@@ -22,8 +22,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.uhc.gymtrack.android.note_detail.NoteDetailScreen
-import com.uhc.gymtrack.android.note_list.NoteListScreen
+import com.uhc.gymtrack.android.exercise.detail.ExerciseDetailScreen
+import com.uhc.gymtrack.android.exercise.list.ExerciseListScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @Composable
@@ -72,21 +72,21 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyApplicationTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "note_list") {
-                    composable(route = "note_list") {
-                        NoteListScreen(navController = navController)
+                NavHost(navController = navController, startDestination = "exercise_list") {
+                    composable(route = "exercise_list") {
+                        ExerciseListScreen(navController = navController)
                     }
                     composable(
-                        route = "note_detail/{noteId}",
+                        route = "exercise_detail/{exerciseId}",
                         arguments = listOf(
-                            navArgument(name = "noteId") {
+                            navArgument(name = "exerciseId") {
                                 type = NavType.LongType
                                 defaultValue = -1L
                             }
                         )
                     ) { backStackEntry ->
-                        val noteId = backStackEntry.arguments?.getLong("noteId") ?: -1L
-                        NoteDetailScreen(noteId = noteId, navController = navController)
+                        val exerciseId = backStackEntry.arguments?.getLong("exerciseId") ?: -1L
+                        ExerciseDetailScreen(exerciseId = exerciseId, navController = navController)
                     }
                 }
             }

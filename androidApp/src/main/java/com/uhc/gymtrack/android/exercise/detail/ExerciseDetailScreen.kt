@@ -1,4 +1,4 @@
-package com.uhc.gymtrack.android.note_detail
+package com.uhc.gymtrack.android.exercise.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,16 +20,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 
 @Composable
-fun NoteDetailScreen(
-    noteId: Long,
+fun ExerciseDetailScreen(
+    exerciseId: Long,
     navController: NavController,
-    viewModel: NoteDetailViewModel = hiltViewModel()
+    viewModel: ExerciseDetailViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    val hasNoteBeenSaved by viewModel.hasNoteBeenSaved.collectAsState()
+    val hasExerciseBeenSaved by viewModel.hasExerciseBeenSaved.collectAsState()
 
-    LaunchedEffect(key1 = hasNoteBeenSaved) {
-        if(hasNoteBeenSaved) {
+    LaunchedEffect(key1 = hasExerciseBeenSaved) {
+        if(hasExerciseBeenSaved) {
             navController.popBackStack()
         }
     }
@@ -37,12 +37,12 @@ fun NoteDetailScreen(
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = viewModel::saveNote,
+                onClick = viewModel::saveExercise,
                 backgroundColor = Color.Black
             ) {
                 Icon(
                     imageVector = Icons.Default.Check,
-                    contentDescription = "Save note",
+                    contentDescription = "Save exercise",
                     tint = Color.White
                 )
             }
@@ -50,30 +50,30 @@ fun NoteDetailScreen(
     ) { padding ->
         Column(
             modifier = Modifier
-                .background(Color(state.noteColor))
+                .background(Color(state.exerciseColor))
                 .fillMaxSize()
                 .padding(padding)
                 .padding(16.dp)
         ) {
             TransparentHintTextField(
-                text = state.noteTitle,
-                hint = "Enter a title...",
-                isHintVisible = state.isNoteTitleHintVisible,
-                onValueChanged = viewModel::onNoteTitleChanged,
+                text = state.exerciseName,
+                hint = "Enter a name for the exercise...",
+                isHintVisible = state.isExerciseNameVisible,
+                onValueChanged = viewModel::onExerciseChanged,
                 onFocusChanged = {
-                    viewModel.onNoteTitleFocusChanged(it.isFocused)
+                    viewModel.onExerciseNameFocusChanged(it.isFocused)
                 },
                 singleLine = true,
                 textStyle = TextStyle(fontSize = 20.sp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             TransparentHintTextField(
-                text = state.noteContent,
-                hint = "Enter some content...",
-                isHintVisible = state.isNoteContentHintVisible,
-                onValueChanged = viewModel::onNoteContentChanged,
+                text = state.exerciseWeight,
+                hint = "Enter exercise weight...",
+                isHintVisible = state.isExerciseWeightHintVisible,
+                onValueChanged = viewModel::onExerciseContentChanged,
                 onFocusChanged = {
-                    viewModel.onNoteContentFocusChanged(it.isFocused)
+                    viewModel.onExerciseContentFocusChanged(it.isFocused)
                 },
                 singleLine = false,
                 textStyle = TextStyle(fontSize = 20.sp),
