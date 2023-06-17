@@ -11,13 +11,13 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
-		C32119F828E1D866009AD973 /* NoteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32119F728E1D866009AD973 /* NoteListViewModel.swift */; };
-		C32119FA28E1D89A009AD973 /* NoteListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32119F928E1D89A009AD973 /* NoteListScreen.swift */; };
+		C32119F828E1D866009AD973 /* ExerciseListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32119F728E1D866009AD973 /* ExerciseListViewModel.swift */; };
+		C32119FA28E1D89A009AD973 /* ExerciseListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32119F928E1D89A009AD973 /* ExerciseListScreen.swift */; };
 		C32119FC28E1DC53009AD973 /* HideableSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32119FB28E1DC53009AD973 /* HideableSearchTextField.swift */; };
-		C3A8986428E1E22800F50A4C /* NoteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A8986328E1E22800F50A4C /* NoteItem.swift */; };
+		C3A8986428E1E22800F50A4C /* ExerciseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A8986328E1E22800F50A4C /* ExerciseItem.swift */; };
 		C3A8986628E1E42800F50A4C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A8986528E1E42800F50A4C /* Colors.swift */; };
-		C3A8986928E1E9F900F50A4C /* NoteDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A8986828E1E9F900F50A4C /* NoteDetailScreen.swift */; };
-		C3A8986B28E1ED1B00F50A4C /* NoteDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A8986A28E1ED1B00F50A4C /* NoteDetailViewModel.swift */; };
+		C3A8986928E1E9F900F50A4C /* ExerciseDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A8986828E1E9F900F50A4C /* ExerciseDetailScreen.swift */; };
+		C3A8986B28E1ED1B00F50A4C /* ExerciseDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A8986A28E1ED1B00F50A4C /* ExerciseDetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,13 +40,13 @@
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C32119F728E1D866009AD973 /* NoteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewModel.swift; sourceTree = "<group>"; };
-		C32119F928E1D89A009AD973 /* NoteListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListScreen.swift; sourceTree = "<group>"; };
+		C32119F728E1D866009AD973 /* ExerciseListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListViewModel.swift; sourceTree = "<group>"; };
+		C32119F928E1D89A009AD973 /* ExerciseListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListScreen.swift; sourceTree = "<group>"; };
 		C32119FB28E1DC53009AD973 /* HideableSearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideableSearchTextField.swift; sourceTree = "<group>"; };
-		C3A8986328E1E22800F50A4C /* NoteItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteItem.swift; sourceTree = "<group>"; };
+		C3A8986328E1E22800F50A4C /* ExerciseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseItem.swift; sourceTree = "<group>"; };
 		C3A8986528E1E42800F50A4C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		C3A8986828E1E9F900F50A4C /* NoteDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailScreen.swift; sourceTree = "<group>"; };
-		C3A8986A28E1ED1B00F50A4C /* NoteDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewModel.swift; sourceTree = "<group>"; };
+		C3A8986828E1E9F900F50A4C /* ExerciseDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailScreen.swift; sourceTree = "<group>"; };
+		C3A8986A28E1ED1B00F50A4C /* ExerciseDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,8 +88,8 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
-				C3A8986728E1E9EB00F50A4C /* note_detail */,
-				C32119F628E1D84A009AD973 /* note_list */,
+				C3A8986728E1E9EB00F50A4C /* exercise_detail */,
+				C32119F628E1D84A009AD973 /* exercise_list */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
@@ -107,24 +107,24 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C32119F628E1D84A009AD973 /* note_list */ = {
+		C32119F628E1D84A009AD973 /* exercise_list */ = {
 			isa = PBXGroup;
 			children = (
-				C32119F728E1D866009AD973 /* NoteListViewModel.swift */,
-				C32119F928E1D89A009AD973 /* NoteListScreen.swift */,
+				C32119F728E1D866009AD973 /* ExerciseListViewModel.swift */,
+				C32119F928E1D89A009AD973 /* ExerciseListScreen.swift */,
 				C32119FB28E1DC53009AD973 /* HideableSearchTextField.swift */,
-				C3A8986328E1E22800F50A4C /* NoteItem.swift */,
+				C3A8986328E1E22800F50A4C /* ExerciseItem.swift */,
 			);
-			path = note_list;
+			path = exercise_list;
 			sourceTree = "<group>";
 		};
-		C3A8986728E1E9EB00F50A4C /* note_detail */ = {
+		C3A8986728E1E9EB00F50A4C /* exercise_detail */ = {
 			isa = PBXGroup;
 			children = (
-				C3A8986828E1E9F900F50A4C /* NoteDetailScreen.swift */,
-				C3A8986A28E1ED1B00F50A4C /* NoteDetailViewModel.swift */,
+				C3A8986828E1E9F900F50A4C /* ExerciseDetailScreen.swift */,
+				C3A8986A28E1ED1B00F50A4C /* ExerciseDetailViewModel.swift */,
 			);
-			path = note_detail;
+			path = exercise_detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,14 +219,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3A8986428E1E22800F50A4C /* NoteItem.swift in Sources */,
+				C3A8986428E1E22800F50A4C /* ExerciseItem.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
-				C3A8986928E1E9F900F50A4C /* NoteDetailScreen.swift in Sources */,
-				C32119FA28E1D89A009AD973 /* NoteListScreen.swift in Sources */,
+				C3A8986928E1E9F900F50A4C /* ExerciseDetailScreen.swift in Sources */,
+				C32119FA28E1D89A009AD973 /* ExerciseListScreen.swift in Sources */,
 				C3A8986628E1E42800F50A4C /* Colors.swift in Sources */,
-				C3A8986B28E1ED1B00F50A4C /* NoteDetailViewModel.swift in Sources */,
+				C3A8986B28E1ED1B00F50A4C /* ExerciseDetailViewModel.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
-				C32119F828E1D866009AD973 /* NoteListViewModel.swift in Sources */,
+				C32119F828E1D866009AD973 /* ExerciseListViewModel.swift in Sources */,
 				C32119FC28E1DC53009AD973 /* HideableSearchTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,6 +356,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
+				DEVELOPMENT_TEAM = 93G8VXTW3V;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				INFOPLIST_FILE = iosApp/Info.plist;
@@ -382,6 +383,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
+				DEVELOPMENT_TEAM = 93G8VXTW3V;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				INFOPLIST_FILE = iosApp/Info.plist;

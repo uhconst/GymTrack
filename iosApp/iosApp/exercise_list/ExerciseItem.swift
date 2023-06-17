@@ -8,7 +8,7 @@ struct ExerciseItem: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(exercise.title)
+                Text(exercise.name)
                     .font(.title3)
                     .fontWeight(.semibold)
                 Spacer()
@@ -17,7 +17,7 @@ struct ExerciseItem: View {
                 }
             }.padding(.bottom, 3)
             
-            Text(exercise.content)
+            Text(exercise.weight)
                 .fontWeight(.light)
                 .padding(.bottom, 3)
             
@@ -37,7 +37,7 @@ struct ExerciseItem: View {
 struct ExerciseItem_Previews: PreviewProvider {
     static var previews: some View {
         ExerciseItem(
-            exercise: Exercise(id: nil, title: "My exercise", content: "Exercise weight", colorHex: 0xFF2341, created: DateTimeUtil().now()),
+            exercise: Exercise(id: nil, name: "My exercise", weight: "Exercise weight", colorHex: 0xFF2341, created: DateTimeUtil().now()),
             onDeleteClick: {}
         )
     }

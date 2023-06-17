@@ -18,8 +18,8 @@ extension ExerciseDetailScreen {
             if id != nil {
                 self.exerciseId = id
                 exerciseDataSource?.getExerciseById(id: id!, completionHandler: { exercise, error in
-                    self.exerciseName = exercise?.title ?? ""
-                    self.exerciseWeight = exercise?.content ?? ""
+                    self.exerciseName = exercise?.name ?? ""
+                    self.exerciseWeight = exercise?.weight ?? ""
                     self.exerciseColor = exercise?.colorHex ?? Exercise.Companion().generateRandomColor()
                 })
             }
@@ -27,7 +27,7 @@ extension ExerciseDetailScreen {
         
         func saveExercise(onSaved: @escaping () -> Void) {
             exerciseDataSource?.insertExercise(
-                exercise: Exercise(id: exerciseId == nil ? nil : KotlinLong(value: exerciseId!), title: self.exerciseName, content: self.exerciseWeight, colorHex: self.exerciseColor, created: DateTimeUtil().now()), completionHandler: { error in
+                exercise: Exercise(id: exerciseId == nil ? nil : KotlinLong(value: exerciseId!), name: self.exerciseName, weight: self.exerciseWeight, colorHex: self.exerciseColor, created: DateTimeUtil().now()), completionHandler: { error in
                     onSaved()
                 })
         }
