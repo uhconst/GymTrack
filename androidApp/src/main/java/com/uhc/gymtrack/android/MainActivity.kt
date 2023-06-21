@@ -24,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.uhc.gymtrack.android.exercise.detail.ExerciseDetailScreen
 import com.uhc.gymtrack.android.exercise.list.ExerciseListScreen
+import com.uhc.gymtrack.android.muscle.MuscleDetailScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @Composable
@@ -87,6 +88,19 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                         val exerciseId = backStackEntry.arguments?.getLong("exerciseId") ?: -1L
                         ExerciseDetailScreen(exerciseId = exerciseId, navController = navController)
+                    }
+                    composable(
+                        route = "muscle_detail/{muscleId}",
+                        arguments = listOf(
+                            navArgument(name = "muscleId") {
+                                type = NavType.LongType
+                                defaultValue = -1L
+                            }
+                        )
+                    ) { backStackEntry ->
+                    // todo
+                        val exerciseId = backStackEntry.arguments?.getLong("muscleId") ?: -1L
+                        MuscleDetailScreen(/*muscleId = muscleId, */navController = navController)
                     }
                 }
             }

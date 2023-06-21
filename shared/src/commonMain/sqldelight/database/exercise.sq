@@ -6,6 +6,14 @@ CREATE TABLE exerciseEntity(
     created INTEGER NOT NULL
 );
 
+CREATE TABLE muscleEntity(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    created INTEGER NOT NULL,
+    modified INTEGER NOT NULL
+);
+
 getAllExercises:
 SELECT *
 FROM exerciseEntity;
@@ -27,4 +35,27 @@ INTO exerciseEntity(
 
 deleteExerciseById:
 DELETE FROM exerciseEntity
+WHERE id = ?;
+
+getAllMuscles:
+SELECT *
+FROM muscleEntity;
+
+getMuscleById:
+SELECT *
+FROM muscleEntity
+WHERE id = ?;
+
+insertMuscle:
+INSERT OR REPLACE
+INTO muscleEntity(
+    id,
+    name,
+    description,
+    created,
+    modified
+) VALUES(?, ?, ?, ?, ?);
+
+deleteMuscleById:
+DELETE FROM muscleEntity
 WHERE id = ?;
