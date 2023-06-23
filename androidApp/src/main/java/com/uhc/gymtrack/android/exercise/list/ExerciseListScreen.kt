@@ -1,18 +1,16 @@
 package com.uhc.gymtrack.android.exercise.list
 
+import android.R
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,8 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.uhc.gymtrack.android.uicomponents.floatingbutton.FabIcon
+import com.uhc.gymtrack.android.uicomponents.floatingbutton.fabOption
+import com.uhc.gymtrack.android.uicomponents.floatingbutton.MultiFabItem
+import com.uhc.gymtrack.android.uicomponents.floatingbutton.MultiFloatingActionButton
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun ExerciseListScreen(
     navController: NavController,
@@ -40,18 +42,31 @@ fun ExerciseListScreen(
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    navController.navigate("exercise_detail/-1L")
+            MultiFloatingActionButton(
+                items = listOf(
+                    MultiFabItem(
+                        id = 1,
+                        iconRes = R.drawable.ic_input_get,
+                        label = "Add Exercise"
+                    ),
+                    MultiFabItem(
+                        id = 2,
+                        iconRes = R.drawable.ic_input_delete,
+                        label = "Add Muscle"
+                    )
+                ),
+                fabIcon = FabIcon(iconRes = R.drawable.ic_menu_save, iconRotate = 45f),
+                onFabItemClicked = {
+                    when (it.id) {
+                        1 -> navController.navigate("exercise_detail/-1L")
+                        2 -> navController.navigate("muscle_detail/-1L")
+                    }
                 },
-                backgroundColor = Color.Black
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Add exercise",
-                    tint = Color.White
+                fabOption = fabOption(
+                    iconTint = Color.White,
+                    showLabel = true
                 )
-            }
+            )
         }
     ) { padding ->
         Column(
