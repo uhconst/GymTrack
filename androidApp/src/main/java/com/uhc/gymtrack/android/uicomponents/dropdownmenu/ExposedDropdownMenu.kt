@@ -1,5 +1,4 @@
-package com.uhc.gymtrack.android.uicomponents
-
+package com.uhc.gymtrack.android.uicomponents.dropdownmenu
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -23,12 +22,13 @@ import kotlinx.coroutines.flow.filter
 
 @Composable
 fun ExposedDropdownMenu(
-    items: List<String>,
-    selected: String = items[0],
-    onItemSelected: (String) -> Unit,
+    items: List<DropdownMenuItem>,
+    selectedId: Long = 0,
+    onItemSelected: (Long) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
+
     LaunchedEffect(interactionSource) {
         interactionSource.interactions
             .filter { it is PressInteraction.Press }
@@ -39,7 +39,7 @@ fun ExposedDropdownMenu(
     ExposedDropdownMenuStack(
         textField = {
             OutlinedTextField(
-                value = selected,
+                value = items.firstOrNull { it.id == selectedId }?.label ?: "",
                 onValueChange = {},
                 interactionSource = interactionSource,
                 readOnly = true,
@@ -70,10 +70,10 @@ fun ExposedDropdownMenu(
                                 .width(boxWidth),
                             onClick = {
                                 expanded = false
-                                onItemSelected(item)
+                                onItemSelected(item.id)
                             }
                         ) {
-                            Text(item)
+                            Text(item.label)
                         }
                     }
                 }
@@ -105,5 +105,8 @@ private enum class ExposedDropdownMenuSlot { TextField, Dropdown }
 @Preview
 @Composable
 fun ExposedDropdownMenuPreview() {
-    ExposedDropdownMenu(items = listOf("Chest", "Biceps"), selected = "Chest", onItemSelected = {})
+    ExposedDropdownMenu(
+        items = listOf(DropdownMenuItem(0, "Chest"), DropdownMenuItem(0, "Biceps")),
+        selectedId = 0,
+        onItemSelected = {})
 }

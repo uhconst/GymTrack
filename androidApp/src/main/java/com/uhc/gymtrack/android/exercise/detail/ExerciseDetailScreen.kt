@@ -25,7 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.uhc.gymtrack.android.uicomponents.ExposedDropdownMenu
+import com.uhc.gymtrack.android.uicomponents.dropdownmenu.DropdownMenuItem
+import com.uhc.gymtrack.android.uicomponents.dropdownmenu.ExposedDropdownMenu
+import com.uhc.gymtrack.domain.muscle.Muscle
 
 @Composable
 fun ExerciseDetailScreen(
@@ -59,8 +61,15 @@ fun ExerciseDetailScreen(
             onExerciseContentChanged = viewModel::onExerciseContentChanged,
             onExerciseContentFocusChanged = {
                 viewModel.onExerciseContentFocusChanged(it.isFocused)
-            }
-
+            },
+            musclesList = state.musclesList.map {
+                DropdownMenuItem(
+                    id = it.id ?: 0,
+                    label = it.name
+                )
+            }, //todo
+            muscleSelectedId = state.muscleId,
+            onMuscleSelectedChanged = viewModel::onExerciseMuscleChanged
         )
     }
 }
@@ -92,7 +101,10 @@ fun AddExercise(
     isExerciseWeightHintVisible: Boolean,
     onExerciseNameFocusChanged: (FocusState) -> Unit,
     onExerciseContentChanged: (String) -> Unit,
-    onExerciseContentFocusChanged: (FocusState) -> Unit
+    onExerciseContentFocusChanged: (FocusState) -> Unit,
+    musclesList: List<DropdownMenuItem>,
+    muscleSelectedId: Long,
+    onMuscleSelectedChanged: (Long) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -111,7 +123,11 @@ fun AddExercise(
             textStyle = TextStyle(fontSize = 20.sp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        ExposedDropdownMenu(items = listOf("Chest", "Biceps"), onItemSelected = {})
+        ExposedDropdownMenu(
+            items = musclesList,
+            selectedId = muscleSelectedId,
+            onItemSelected = onMuscleSelectedChanged
+        )
         Spacer(modifier = Modifier.height(16.dp))
         TransparentHintTextField(
             text = exerciseWeight,
@@ -142,8 +158,10 @@ fun ScreenPreview() {
             isExerciseWeightHintVisible = false,
             onExerciseNameFocusChanged = {},
             onExerciseContentChanged = {},
-            onExerciseContentFocusChanged = {}
-
+            onExerciseContentFocusChanged = {},
+            musclesList = emptyList(),
+            muscleSelectedId = 0,
+            onMuscleSelectedChanged = {}
         )
     }
 }

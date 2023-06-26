@@ -8,7 +8,9 @@ data class Exercise(
     val name: String,
     val weight: String,
     val colorHex: Long,
-    val created: LocalDateTime
+    val created: LocalDateTime,
+    val modified: LocalDateTime,
+    val muscleId: Long
 ) {
     companion object {
         private val colors = listOf(RedOrangeHex, RedPinkHex, LightGreenHex, BabyBlueHex, VioletHex)

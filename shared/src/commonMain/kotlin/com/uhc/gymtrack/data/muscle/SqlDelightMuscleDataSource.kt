@@ -33,6 +33,13 @@ class SqlDelightMuscleDataSource(db: ExerciseDatabase) : MuscleDataSource {
             .map { it.toMuscle() }
     }
 
+    override suspend fun getAllMusclesNames(): List<String> {
+        return queries
+            .getAllMuscles()
+            .executeAsList()
+            .map { it.name }
+    }
+
     override suspend fun deleteMuscleById(id: Long) {
         queries.deleteMuscleById(id)
     }

@@ -14,6 +14,10 @@ fun ExerciseEntity.toExercise(): Exercise {
         colorHex = colorHex,
         created = Instant
             .fromEpochMilliseconds(created)
-            .toLocalDateTime(TimeZone.currentSystemDefault())
+            .toLocalDateTime(TimeZone.currentSystemDefault()),
+        modified = Instant
+            .fromEpochMilliseconds(modified)
+            .toLocalDateTime(TimeZone.currentSystemDefault()),
+        muscleId = muscleId
     )
 }

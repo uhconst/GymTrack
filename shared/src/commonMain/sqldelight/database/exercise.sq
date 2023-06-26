@@ -3,7 +3,10 @@ CREATE TABLE exerciseEntity(
     name TEXT NOT NULL,
     weight TEXT NOT NULL,
     colorHex INTEGER NOT NULL,
-    created INTEGER NOT NULL
+    created INTEGER NOT NULL,
+    modified INTEGER NOT NULL,
+    muscleId INTEGER NOT NULL,
+    FOREIGN KEY (muscleId) REFERENCES muscleEntity(id)
 );
 
 CREATE TABLE muscleEntity(
@@ -30,8 +33,10 @@ INTO exerciseEntity(
     name,
     weight,
     colorHex,
-    created
-) VALUES(?, ?, ?, ?, ?);
+    created,
+    modified,
+    muscleId
+) VALUES(?, ?, ?, ?, ?, ?, ?);
 
 deleteExerciseById:
 DELETE FROM exerciseEntity
