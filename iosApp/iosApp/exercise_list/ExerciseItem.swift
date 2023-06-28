@@ -37,7 +37,7 @@ struct ExerciseItem: View {
 struct ExerciseItem_Previews: PreviewProvider {
     static var previews: some View {
         ExerciseItem(
-            exercise: Exercise(id: nil, name: "My exercise", weight: "Exercise weight", colorHex: 0xFF2341, created: DateTimeUtil().now()),
+            exercise: Exercise(id: nil, name: "My exercise", weight: "Exercise weight", colorHex: 0xFF2341, created: DateTimeUtil().now(), modified: DateTimeUtil().now(), muscle: nil),
             onDeleteClick: {}
         )
     }
