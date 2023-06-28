@@ -1,9 +1,10 @@
 import SwiftUI
 
-struct HideableSearchTextField<Destination: View>: View {
+struct HideableSearchTextField<Destination1: View, Destination2: View>: View {
     
     var onSearchToggled: () -> Void
-    var destinationProvider: () -> Destination
+    var destinationOneProvider: () -> Destination1
+    var destinationTwoProvider: () -> Destination2
     var isSearchActive: Bool
     @Binding var searchText: String
     
@@ -19,9 +20,13 @@ struct HideableSearchTextField<Destination: View>: View {
                 Image(systemName: isSearchActive ? "xmark" : "magnifyingglass")
                     .foregroundColor(.black)
             }
-            NavigationLink(destination: destinationProvider()) {
+            NavigationLink(destination: destinationOneProvider()) {
                 Image(systemName: "plus")
                     .foregroundColor(.black)
+            }
+            NavigationLink(destination: destinationTwoProvider()) {
+                Image(systemName: "plus")
+                    .foregroundColor(.red)
             }
         }
     }
@@ -31,7 +36,8 @@ struct HideableSearchTextField_Previews: PreviewProvider {
     static var previews: some View {
         HideableSearchTextField(
             onSearchToggled: {},
-            destinationProvider: { EmptyView() },
+            destinationOneProvider: { EmptyView() },
+            destinationTwoProvider: { EmptyView() },
             isSearchActive: true,
             searchText: .constant("YouTube")
         )

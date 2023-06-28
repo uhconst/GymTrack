@@ -3,27 +3,50 @@ import shared
 
 struct ExerciseListScreen: View {
     private var exerciseDataSource: ExerciseDataSource
+    private var muscleDataSource: MuscleDataSource
+
     @StateObject var viewModel = ExerciseListViewModel(exerciseDataSource: nil)
     
     @State private var isExerciseSelected = false
     @State private var selectedExerciseId: Int64? = nil
     
-    init(exerciseDataSource: ExerciseDataSource) {
+    init(exerciseDataSource: ExerciseDataSource, muscleDataSource: MuscleDataSource) {
         self.exerciseDataSource = exerciseDataSource
+        self.muscleDataSource = muscleDataSource
     }
     
     var body: some View {
         VStack {
             ZStack {
-                NavigationLink(destination: ExerciseDetailScreen(exerciseDataSource: self.exerciseDataSource, exerciseId: selectedExerciseId), isActive: $isExerciseSelected) {
+                NavigationLink(
+                    destination: ExerciseDetailScreen(
+                        exerciseDataSource: self.exerciseDataSource,
+                        exerciseId: selectedExerciseId
+                    ),
+                    isActive: $isExerciseSelected
+                ) {
                     EmptyView()
                 }.hidden()
-                HideableSearchTextField<ExerciseDetailScreen>(onSearchToggled: {
+
+                NavigationLink(
+                    destination: MuscleDetailScreen(
+                        muscleDataSource: self.muscleDataSource,
+                        muscleId: 0
+                    )) {
+                    EmptyView()
+                }.hidden()
+
+                HideableSearchTextField<ExerciseDetailScreen, MuscleDetailScreen>(onSearchToggled: {
                     viewModel.toggleIsSearchActive()
-                }, destinationProvider: {
+                }, destinationOneProvider: {
                     ExerciseDetailScreen(
                         exerciseDataSource: exerciseDataSource,
                         exerciseId: selectedExerciseId
+                    )
+                }, destinationTwoProvider: {
+                    MuscleDetailScreen(
+                        muscleDataSource: muscleDataSource,
+                        muscleId: 0 //todo
                     )
                 }, isSearchActive: viewModel.isSearchActive, searchText: $viewModel.searchText)
                 .frame(maxWidth: .infinity, minHeight: 40)

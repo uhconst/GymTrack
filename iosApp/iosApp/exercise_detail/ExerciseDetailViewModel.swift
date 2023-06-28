@@ -36,7 +36,7 @@ extension ExerciseDetailScreen {
         }
         
         func saveExercise(onSaved: @escaping () -> Void) {
-            var exerciseMuscle: Muscle? = self.musclesList.first(where: { $0.id?.int64Value == self.exerciseMuscleId })
+            let exerciseMuscle: Muscle? = self.musclesList.first(where: { $0.id?.int64Value == self.exerciseMuscleId })
             
             exerciseDataSource?.insertExercise( //todo created
                 exercise: Exercise(id: exerciseId == nil ? nil : KotlinLong(value: exerciseId!), name: self.exerciseName, weight: self.exerciseWeight, colorHex: self.exerciseColor, created: DateTimeUtil().now(), modified: DateTimeUtil().now(), muscle: exerciseMuscle), completionHandler: { error in
