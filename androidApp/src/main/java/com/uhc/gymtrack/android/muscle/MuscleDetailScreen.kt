@@ -98,7 +98,7 @@ fun AddMuscle(
     ) {
         TransparentHintTextField(
             text = muscleName,
-            hint = "Enter a name for the muscle...",
+            hint = "Enter the muscle name...",
             isHintVisible = isMuscleNameVisible,
             onValueChanged = onMuscleChanged,
             onFocusChanged = onMuscleNameFocusChanged,
@@ -108,7 +108,7 @@ fun AddMuscle(
         Spacer(modifier = Modifier.height(16.dp))
         TransparentHintTextField(
             text = muscleDescription,
-            hint = "Muscle description...",
+            hint = "Enter the muscle description...",
             isHintVisible = isMuscleDescriptionHintVisible,
             onValueChanged = onMuscleDescriptionChanged,
             onFocusChanged = onMuscleDescriptionFocusChanged,

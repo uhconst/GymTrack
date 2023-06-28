@@ -34,7 +34,7 @@ class ExerciseDetailViewModel @Inject constructor(
         "created",
         DateTimeUtil.now()
     )
-    private val muscleId = savedStateHandle.getStateFlow("muscleId", 0L)
+    private val exerciseMuscleId = savedStateHandle.getStateFlow("exerciseMuscleId", 0L)
     private val musclesList = savedStateHandle.getStateFlow<List<Muscle>?>("musclesList", null)
 
     val state = combine(
@@ -43,8 +43,8 @@ class ExerciseDetailViewModel @Inject constructor(
         exerciseWeight,
 //        isExerciseWeightFocused,
         musclesList,
-        muscleId
-    ) { title, isTitleFocused, content, /*isExerciseWeightFocused,*/ musclesList, muscleId ->
+        exerciseMuscleId
+    ) { title, isTitleFocused, content, /*isExerciseWeightFocused,*/ musclesList, exerciseMuscleId ->
         ExerciseDetailState(
             exerciseName = title,
             isExerciseNameVisible = title.isEmpty() && !isTitleFocused,
@@ -52,7 +52,7 @@ class ExerciseDetailViewModel @Inject constructor(
             isExerciseWeightHintVisible = content.isEmpty() /*&& !isExerciseWeightFocused*/,
             exerciseColor = Exercise.generateRandomColor(),
             musclesList = musclesList ?: emptyList(),
-            muscleId = muscleId
+            exerciseMuscleId = exerciseMuscleId
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ExerciseDetailState())
 
@@ -73,7 +73,7 @@ class ExerciseDetailViewModel @Inject constructor(
                     savedStateHandle["exerciseWeight"] = exercise.weight
                     savedStateHandle["exerciseColor"] = exercise.colorHex
                     savedStateHandle["created"] = exercise.created
-                    savedStateHandle["muscleId"] = exercise.muscleId
+                    savedStateHandle["exerciseMuscleId"] = exercise.muscle?.id
                 }
             }
         }
@@ -102,10 +102,13 @@ class ExerciseDetailViewModel @Inject constructor(
     }
 
     fun onExerciseMuscleChanged(muscleSelectedId: Long) {
-        savedStateHandle["muscleId"] = muscleSelectedId
+
+        savedStateHandle["exerciseMuscleId"] = muscleSelectedId
     }
 
     fun saveExercise() {
+        val exerciseMuscle = musclesList.value?.firstOrNull { it.id == exerciseMuscleId.value }
+
         viewModelScope.launch {
             exerciseDataSource.insertExercise(
                 Exercise(
@@ -115,7 +118,7 @@ class ExerciseDetailViewModel @Inject constructor(
                     colorHex = exerciseColor.value,
                     created = created.value,
                     modified = DateTimeUtil.now(),
-                    muscleId = muscleId.value
+                    muscle = exerciseMuscle
                 )
             )
             _hasExerciseBeenSaved.value = true

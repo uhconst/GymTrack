@@ -68,7 +68,7 @@ fun ExerciseDetailScreen(
                     label = it.name
                 )
             }, //todo
-            muscleSelectedId = state.muscleId,
+            muscleSelectedId = state.exerciseMuscleId,
             onMuscleSelectedChanged = viewModel::onExerciseMuscleChanged
         )
     }

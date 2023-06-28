@@ -19,12 +19,14 @@ CREATE TABLE muscleEntity(
 
 getAllExercises:
 SELECT *
-FROM exerciseEntity;
+FROM exerciseEntity
+INNER JOIN muscleEntity;
 
 getExerciseById:
 SELECT *
 FROM exerciseEntity
-WHERE id = ?;
+INNER JOIN muscleEntity
+WHERE exerciseEntity.id = ?;
 
 insertExercise:
 INSERT OR REPLACE

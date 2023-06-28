@@ -9,5 +9,5 @@ data class ExerciseDetailState(
     val isExerciseWeightHintVisible: Boolean = false,
     val exerciseColor: Long = 0xFFFFFF,
     val musclesList: List<Muscle> = emptyList(),
-    val muscleId: Long = 0,
+    val exerciseMuscleId: Long = 0,
 )
