@@ -1,13 +1,21 @@
 package com.uhc.gymtrack.android.uicomponents.floatingbutton
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -93,28 +101,23 @@ fun MiniFabItem(
     onFabItemClicked: (item: MultiFabItem) -> Unit
 ) {
     Row(
-        modifier = Modifier
-            .wrapContentSize()
-            .padding(end = 10.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (fabOption.showLabel) {
             Text(
                 text = item.label,
-                fontSize = 12.sp,
+                fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
+                color = fabOption.iconTint,
                 modifier = Modifier
-                    .background(MaterialTheme.colors.secondary)
+                    .background(fabOption.backgroundTint, shape = RoundedCornerShape(40))
                     .padding(horizontal = 6.dp, vertical = 4.dp)
             )
         }
 
         FloatingActionButton(
-            onClick = {
-                onFabItemClicked(item)
-            },
-            modifier = Modifier.size(40.dp),
+            onClick = { onFabItemClicked(item) },
             backgroundColor = fabOption.backgroundTint,
             contentColor = fabOption.iconTint
         ) {

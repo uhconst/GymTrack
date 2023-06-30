@@ -36,13 +36,15 @@ fun MyApplicationTheme(
         darkColors(
             primary = Color(0xFFBB86FC),
             primaryVariant = Color(0xFF3700B3),
-            secondary = Color(0xFF03DAC5)
+            secondary = Color(0xFF03DAC5),
+//            surface = Color(0xFF000000)
         )
     } else {
         lightColors(
             primary = Color(0xFF6200EE),
             primaryVariant = Color(0xFF3700B3),
-            secondary = Color(0xFF03DAC5)
+            secondary = Color(0xFF03DAC5),
+//            surface = Color(0xFFFFFFFF)
         )
     }
     val typography = Typography(

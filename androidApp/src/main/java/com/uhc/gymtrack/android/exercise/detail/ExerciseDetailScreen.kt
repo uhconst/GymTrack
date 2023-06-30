@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -27,7 +29,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.uhc.gymtrack.android.uicomponents.dropdownmenu.DropdownMenuItem
 import com.uhc.gymtrack.android.uicomponents.dropdownmenu.ExposedDropdownMenu
-import com.uhc.gymtrack.domain.muscle.Muscle
 
 @Composable
 fun ExerciseDetailScreen(
@@ -48,7 +49,6 @@ fun ExerciseDetailScreen(
         floatingActionButton = { FloatingAddButton(viewModel::saveExercise) }
     ) { padding ->
         AddExercise(
-            exerciseColor = state.exerciseColor,
             paddingValues = padding,
             exerciseName = state.exerciseName,
             isExerciseNameVisible = state.isExerciseNameVisible,
@@ -92,7 +92,6 @@ fun FloatingAddButton(
 
 @Composable
 fun AddExercise(
-    exerciseColor: Long,
     paddingValues: PaddingValues,
     exerciseName: String,
     isExerciseNameVisible: Boolean,
@@ -108,27 +107,30 @@ fun AddExercise(
 ) {
     Column(
         modifier = Modifier
-            .background(Color(exerciseColor))
             .fillMaxSize()
             .padding(paddingValues)
-            .padding(16.dp)
+            .padding(35.dp)
     ) {
         TransparentHintTextField(
             text = exerciseName,
-            hint = "Enter a name for the exercise...",
+            hint = "Exercise:",
             isHintVisible = isExerciseNameVisible,
             onValueChanged = onExerciseChanged,
             onFocusChanged = onExerciseNameFocusChanged,
             singleLine = true,
-            textStyle = TextStyle(fontSize = 20.sp)
+            textStyle = TextStyle(fontSize = 20.sp, color = Color.White),
+            modifier = Modifier
+                .width(100.dp)
+                .background(color = Color.DarkGray, shape = RoundedCornerShape(5.dp))
+                .padding(5.dp)
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         ExposedDropdownMenu(
             items = musclesList,
             selectedId = muscleSelectedId,
             onItemSelected = onMuscleSelectedChanged
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         TransparentHintTextField(
             text = exerciseWeight,
             hint = "Enter exercise weight...",
@@ -136,8 +138,11 @@ fun AddExercise(
             onValueChanged = onExerciseContentChanged,
             onFocusChanged = onExerciseContentFocusChanged,
             singleLine = false,
-            textStyle = TextStyle(fontSize = 20.sp),
-            modifier = Modifier.weight(1f)
+            textStyle = TextStyle(fontSize = 20.sp, color = Color.White),
+            modifier = Modifier
+                .weight(1f)
+                .background(color = Color.DarkGray, shape = RoundedCornerShape(5.dp))
+                .padding(15.dp)
         )
     }
 }
@@ -149,9 +154,8 @@ fun ScreenPreview() {
         floatingActionButton = { FloatingAddButton {} }
     ) {
         AddExercise(
-            exerciseColor = 0xFFFFFF,
             paddingValues = it,
-            exerciseName = "Test",
+            exerciseName = "Exercise:",
             isExerciseNameVisible = false,
             onExerciseChanged = {},
             exerciseWeight = "Test 2",

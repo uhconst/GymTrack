@@ -1,6 +1,8 @@
 package com.uhc.gymtrack.android.exercise.list
 
-import android.R
+import android.R.drawable.ic_menu_save
+import com.uhc.gymtrack.android.R.drawable.ic_muscle
+import com.uhc.gymtrack.android.R.drawable.ic_exercise
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
@@ -46,26 +48,23 @@ fun ExerciseListScreen(
                 items = listOf(
                     MultiFabItem(
                         id = 1,
-                        iconRes = R.drawable.ic_input_get,
+                        iconRes = ic_exercise,
                         label = "Add Exercise"
                     ),
                     MultiFabItem(
                         id = 2,
-                        iconRes = R.drawable.ic_input_delete,
+                        iconRes = ic_muscle,
                         label = "Add Muscle"
                     )
                 ),
-                fabIcon = FabIcon(iconRes = R.drawable.ic_menu_save, iconRotate = 45f),
+                fabIcon = FabIcon(iconRes = ic_menu_save, iconRotate = 45f),
                 onFabItemClicked = {
                     when (it.id) {
                         1 -> navController.navigate("exercise_detail/-1L")
                         2 -> navController.navigate("muscle_detail/-1L")
                     }
                 },
-                fabOption = fabOption(
-                    iconTint = Color.White,
-                    showLabel = true
-                )
+                fabOption = fabOption(showLabel = true)
             )
         }
     ) { padding ->

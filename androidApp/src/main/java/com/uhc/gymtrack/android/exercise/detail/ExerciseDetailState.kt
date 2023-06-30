@@ -7,7 +7,7 @@ data class ExerciseDetailState(
     val isExerciseNameVisible: Boolean = false,
     val exerciseWeight: String = "",
     val isExerciseWeightHintVisible: Boolean = false,
-    val exerciseColor: Long = 0xFFFFFF,
+    val exerciseColor: Long = 0xFFFFFF, //todo muscle colour
     val musclesList: List<Muscle> = emptyList(),
     val exerciseMuscleId: Long = 0,
 )

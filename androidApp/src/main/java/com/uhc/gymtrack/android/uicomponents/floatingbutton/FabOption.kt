@@ -27,8 +27,8 @@ private class FabOptionImpl(
 
 @Composable
 fun fabOption(
-    backgroundTint: Color = MaterialTheme.colors.primary,
-    iconTint: Color = contentColorFor(backgroundColor = backgroundTint),
+    backgroundTint: Color = MaterialTheme.colors.onBackground,
+    iconTint: Color = Color.Black,
     showLabel: Boolean = false
 ): FabOption = FabOptionImpl(iconTint, backgroundTint, showLabel)
 
