@@ -13,6 +13,8 @@ data class Exercise(
     val modified: LocalDateTime,
     val muscle: Muscle?
 ) {
+    val weightWithKg get() = weight + "kg"
+
     companion object {
         private val colors = listOf(RedOrangeHex, RedPinkHex, LightGreenHex, BabyBlueHex, VioletHex)
 

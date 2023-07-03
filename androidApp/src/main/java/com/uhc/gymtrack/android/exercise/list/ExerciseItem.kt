@@ -64,7 +64,7 @@ fun ExerciseItem(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = exercise.weight, fontWeight = FontWeight.Light)
+            Text(text = exercise.weightWithKg, fontWeight = FontWeight.Light)
             Text(text = exercise.muscle?.name ?: "-", fontWeight = FontWeight.SemiBold)
         }
         Spacer(modifier = Modifier.height(16.dp))

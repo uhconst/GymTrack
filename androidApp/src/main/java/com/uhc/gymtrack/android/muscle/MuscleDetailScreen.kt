@@ -1,14 +1,18 @@
 package com.uhc.gymtrack.android.muscle
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
@@ -19,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -94,16 +99,26 @@ fun AddMuscle(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
-            .padding(16.dp)
+            .padding(16.dp, 35.dp)
     ) {
+        Text(
+            text = "Add Muscle",
+            fontWeight = FontWeight.Bold,
+            fontSize = 30.sp
+        )
+        Spacer(modifier = Modifier.height(25.dp))
         TransparentHintTextField(
             text = muscleName,
-            hint = "Enter the muscle name...",
+            hint = "Muscle:",
             isHintVisible = isMuscleNameVisible,
             onValueChanged = onMuscleChanged,
             onFocusChanged = onMuscleNameFocusChanged,
             singleLine = true,
-            textStyle = TextStyle(fontSize = 20.sp)
+            textStyle = TextStyle(fontSize = 20.sp, color = Color.White),
+            modifier = Modifier
+                .width(100.dp)
+                .background(color = Color.DarkGray, shape = RoundedCornerShape(5.dp))
+                .padding(5.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         TransparentHintTextField(
@@ -113,8 +128,11 @@ fun AddMuscle(
             onValueChanged = onMuscleDescriptionChanged,
             onFocusChanged = onMuscleDescriptionFocusChanged,
             singleLine = false,
-            textStyle = TextStyle(fontSize = 20.sp),
-            modifier = Modifier.weight(1f)
+            textStyle = TextStyle(fontSize = 20.sp, color = Color.White),
+            modifier = Modifier
+                .weight(1f)
+                .background(color = Color.DarkGray, shape = RoundedCornerShape(5.dp))
+                .padding(15.dp)
         )
     }
 }
@@ -127,10 +145,10 @@ fun ScreenPreview() {
     ) {
         AddMuscle(
             paddingValues = it,
-            muscleName = "Back",
+            muscleName = "Muscle:",
             isMuscleNameVisible = false,
             onMuscleChanged = {},
-            muscleDescription = "Test 2",
+            muscleDescription = "Test muscle",
             isMuscleDescriptionHintVisible = false,
             onMuscleNameFocusChanged = {},
             onMuscleDescriptionChanged = {},
