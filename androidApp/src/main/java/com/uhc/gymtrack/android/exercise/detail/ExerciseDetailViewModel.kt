@@ -72,7 +72,7 @@ class ExerciseDetailViewModel @Inject constructor(
                     savedStateHandle["exerciseName"] = exercise.name
                     savedStateHandle["exerciseWeight"] = exercise.weight
                     savedStateHandle["exerciseColor"] = exercise.colorHex
-                    savedStateHandle["created"] = exercise.created
+//                    savedStateHandle["created"] = exercise.created
                     savedStateHandle["exerciseMuscleId"] = exercise.muscle?.id
                 }
             }

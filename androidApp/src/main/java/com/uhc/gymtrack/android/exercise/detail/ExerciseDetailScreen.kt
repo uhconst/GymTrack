@@ -9,10 +9,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
@@ -82,7 +82,7 @@ fun FloatingAddButton(
 ) {
     FloatingActionButton(
         onClick = saveExerciseOnClick,
-        backgroundColor = Color.Black
+        modifier = Modifier.background(Color.Black)
     ) {
         Icon(
             imageVector = Icons.Default.Check,
@@ -148,7 +148,7 @@ fun AddExercise(
             singleLine = false,
             textStyle = TextStyle(fontSize = 20.sp, color = Color.White),
             modifier = Modifier
-                .weight(1f)
+                .width(100.dp)
                 .background(color = Color.DarkGray, shape = RoundedCornerShape(5.dp))
                 .padding(15.dp)
         )

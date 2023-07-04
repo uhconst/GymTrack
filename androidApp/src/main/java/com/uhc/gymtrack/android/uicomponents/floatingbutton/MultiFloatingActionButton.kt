@@ -1,5 +1,7 @@
 package com.uhc.gymtrack.android.uicomponents.floatingbutton
 
+import androidx.annotation.DrawableRes
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
@@ -14,9 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
@@ -27,8 +29,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.uhc.gymtrack.android.R
 
 @ExperimentalAnimationApi
 @Composable
@@ -75,22 +79,13 @@ fun MultiFloatingActionButton(
             }
         }
 
-        FloatingActionButton(
+        FloatingActionButtonExpand(
             onClick = {
                 fabState.value = fabState.value.toggleValue()
                 stateChanged(fabState.value)
             },
-            backgroundColor = fabOption.backgroundTint,
-            contentColor = fabOption.iconTint
-        ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-//                painter = painterResource(id = fabIcon.iconRes),
-                contentDescription = "FAB",
-                modifier = Modifier.rotate(rotation),
-                tint = fabOption.iconTint
-            )
-        }
+            rotation
+        )
     }
 }
 
@@ -116,32 +111,38 @@ fun MiniFabItem(
             )
         }
 
-        FloatingActionButton(
+        SmallFloatingActionButtonExerciseMuscle(
             onClick = { onFabItemClicked(item) },
-            backgroundColor = fabOption.backgroundTint,
-            contentColor = fabOption.iconTint
-        ) {
-            Icon(
-                painter = painterResource(id = item.iconRes),
-                contentDescription = "Float Icon",
-                tint = fabOption.iconTint
-            )
-        }
+            item.iconRes
+        )
     }
 }
 
+@Preview
+@Composable
+fun SmallFloatingActionButtonExerciseMuscle(
+    onClick: () -> Unit = {},
+    @DrawableRes iconId: Int = R.drawable.ic_exercise
+) {
+    SmallFloatingActionButton(onClick = onClick) {
+        Icon(
+            painter = painterResource(id = iconId),
+            contentDescription = "Add"
+        )
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@Preview
+@Composable
+fun FloatingActionButtonExpand(
+    onClick: () -> Unit = {},
+    rotationDegrees: Float
+) {
+    FloatingActionButton(onClick = onClick) {
+        Icon(
+            imageVector = Icons.Default.Add,
+            contentDescription = "Add",
+            modifier = Modifier.rotate(rotationDegrees)
+        )
+    }
+}

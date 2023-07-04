@@ -1,7 +1,6 @@
 package com.uhc.gymtrack.android.uicomponents.floatingbutton
 
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.contentColorFor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
@@ -13,7 +12,7 @@ interface FabOption {
     val iconTint: Color
 
     @Stable
-    val backgroundTint: Color
+    val backgroundTint: Color //todo delete
 
     @Stable
     val showLabel: Boolean
@@ -27,7 +26,7 @@ private class FabOptionImpl(
 
 @Composable
 fun fabOption(
-    backgroundTint: Color = MaterialTheme.colors.onBackground,
+    backgroundTint: Color = MaterialTheme.colorScheme.onBackground,
     iconTint: Color = Color.Black,
     showLabel: Boolean = false
 ): FabOption = FabOptionImpl(iconTint, backgroundTint, showLabel)

@@ -10,6 +10,11 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,6 +70,7 @@ fun ExposedDropdownMenu(
                 ) {
                     items.forEach { item ->
                         DropdownMenuItem(
+                            text = { Text(item.label) },
                             modifier = Modifier
                                 .height(itemHeight)
                                 .width(boxWidth),
@@ -72,9 +78,7 @@ fun ExposedDropdownMenu(
                                 expanded = false
                                 onItemSelected(item.id)
                             }
-                        ) {
-                            Text(item.label)
-                        }
+                        )
                     }
                 }
             }
