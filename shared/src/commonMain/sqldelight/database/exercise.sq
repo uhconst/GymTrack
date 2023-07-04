@@ -20,7 +20,8 @@ CREATE TABLE muscleEntity(
 getAllExercises:
 SELECT *
 FROM exerciseEntity
-INNER JOIN muscleEntity;
+INNER JOIN muscleEntity
+WHERE exerciseEntity.muscleId = muscleEntity.id;
 
 getExerciseById:
 SELECT *
