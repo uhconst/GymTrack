@@ -12,7 +12,7 @@ interface FabOption {
     val iconTint: Color
 
     @Stable
-    val backgroundTint: Color //todo delete
+    val backgroundTint: Color
 
     @Stable
     val showLabel: Boolean
@@ -26,8 +26,8 @@ private class FabOptionImpl(
 
 @Composable
 fun fabOption(
-    backgroundTint: Color = MaterialTheme.colorScheme.onBackground,
-    iconTint: Color = Color.Black,
+    backgroundTint: Color = MaterialTheme.colorScheme.primaryContainer,
+    iconTint: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     showLabel: Boolean = false
 ): FabOption = FabOptionImpl(iconTint, backgroundTint, showLabel)
 
