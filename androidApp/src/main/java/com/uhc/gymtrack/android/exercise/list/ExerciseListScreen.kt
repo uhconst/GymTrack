@@ -173,7 +173,7 @@ fun ExerciseListScreen(
                 )
                 {
                     itemsIndexed(state.musclesList) { _, muscle ->
-                        var selected by remember { mutableStateOf(false) }
+                        var selected by remember { mutableStateOf(viewModel.checkMuscleFilterSelected(muscle.id)) }
 
                         FilterChip(
                             selected = !selected,

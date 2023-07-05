@@ -27,7 +27,8 @@ class ExerciseListViewModel @Inject constructor(
     private val exercises = savedStateHandle.getStateFlow("exercises", emptyList<Exercise>())
     private val searchText = savedStateHandle.getStateFlow("searchText", "")
     private val isSearchActive = savedStateHandle.getStateFlow("isSearchActive", false)
-    private val musclesList = savedStateHandle.getStateFlow<List<Muscle>>("musclesList", emptyList())
+    private val musclesList =
+        savedStateHandle.getStateFlow<List<Muscle>>("musclesList", emptyList())
     private val muscleIdsFilter =
         savedStateHandle.getStateFlow("muscleIdsFilter", emptyList<Long>())
 
@@ -92,4 +93,6 @@ class ExerciseListViewModel @Inject constructor(
             loadExercises()
         }
     }
+
+    fun checkMuscleFilterSelected(id: Long?): Boolean = muscleIdsFilter.value.contains(id)
 }

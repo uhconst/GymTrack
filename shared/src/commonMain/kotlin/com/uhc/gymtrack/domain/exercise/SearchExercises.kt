@@ -23,13 +23,13 @@ class SearchExercises {
             it.name.trim().lowercase().contains(query.lowercase()) ||
                     it.weight.trim().lowercase().contains(query.lowercase())
         }.sortedBy {
-            DateTimeUtil.toEpochMillis(it.created)
+            DateTimeUtil.toEpochMillis(it.modified)
         }
 
     private fun filterByMuscleId(exercises: List<Exercise>, muscleIds: List<Long>): List<Exercise> =
         exercises.filter {
             muscleIds.contains(it.muscle?.id)
         }.sortedBy {
-            DateTimeUtil.toEpochMillis(it.created)
+            DateTimeUtil.toEpochMillis(it.modified)
         }
 }
