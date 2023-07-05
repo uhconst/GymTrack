@@ -79,9 +79,7 @@ class ExerciseDetailViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            muscleDataSource.getAllMuscles().let { muscles ->
-                savedStateHandle["musclesList"] = muscles
-            }
+            savedStateHandle["musclesList"] = muscleDataSource.getAllMuscles()
         }
     }
 
