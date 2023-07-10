@@ -14,6 +14,7 @@ class SqlDelightMuscleDataSource(db: ExerciseDatabase) : MuscleDataSource {
             id = muscle.id,
             name = muscle.name,
             description = muscle.description,
+            colorHex = muscle.colorHex,
             created = DateTimeUtil.toEpochMillis(muscle.created),
             modified = DateTimeUtil.toEpochMillis(muscle.modified)
         )

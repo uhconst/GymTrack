@@ -11,6 +11,7 @@ fun MuscleEntity.toMuscle(): Muscle {
         id = id,
         name = name,
         description = description,
+        colorHex = colorHex,
         created = Instant
             .fromEpochMilliseconds(created)
             .toLocalDateTime(TimeZone.currentSystemDefault()),

@@ -2,7 +2,6 @@ CREATE TABLE exerciseEntity(
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     weight TEXT NOT NULL,
-    colorHex INTEGER NOT NULL,
     created INTEGER NOT NULL,
     modified INTEGER NOT NULL,
     muscleId INTEGER NOT NULL,
@@ -13,6 +12,7 @@ CREATE TABLE muscleEntity(
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
+    colorHex INTEGER NOT NULL,
     created INTEGER NOT NULL,
     modified INTEGER NOT NULL
 );
@@ -27,7 +27,7 @@ getExerciseById:
 SELECT *
 FROM exerciseEntity
 INNER JOIN muscleEntity
-WHERE exerciseEntity.id = ?;
+WHERE exerciseEntity.id = ? AND exerciseEntity.muscleId = muscleEntity.id;
 
 insertExercise:
 INSERT OR REPLACE
@@ -35,11 +35,10 @@ INTO exerciseEntity(
     id,
     name,
     weight,
-    colorHex,
     created,
     modified,
     muscleId
-) VALUES(?, ?, ?, ?, ?, ?, ?);
+) VALUES(?, ?, ?, ?, ?, ?);
 
 deleteExerciseById:
 DELETE FROM exerciseEntity
@@ -60,9 +59,10 @@ INTO muscleEntity(
     id,
     name,
     description,
+    colorHex,
     created,
     modified
-) VALUES(?, ?, ?, ?, ?);
+) VALUES(?, ?, ?, ?, ?, ?);
 
 deleteMuscleById:
 DELETE FROM muscleEntity

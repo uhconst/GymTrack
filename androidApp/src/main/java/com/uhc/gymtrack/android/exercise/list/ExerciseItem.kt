@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.uhc.gymtrack.domain.exercise.Exercise
 import com.uhc.gymtrack.domain.muscle.Muscle
 import com.uhc.gymtrack.domain.time.DateTimeUtil
+import com.uhc.gymtrack.presentation.RedOrangeHex
 import kotlinx.datetime.LocalDateTime
 
 @Composable
@@ -113,7 +114,7 @@ fun ExerciseItemPreview() {
             id = null,
             name = "Side polia",
             weight = "35",
-            colorHex = 4623,
+//            colorHex = 4623,
             created = created,
             modified = modified,
             muscle = Muscle(
@@ -121,7 +122,8 @@ fun ExerciseItemPreview() {
                 name = "Shoulder",
                 description = "-",
                 created = created,
-                modified = modified
+                modified = modified,
+                colorHex = RedOrangeHex
             )
         ),
         backgroundColor = Color.Blue,

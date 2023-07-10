@@ -53,6 +53,7 @@ import com.uhc.gymtrack.android.uicomponents.floatingbutton.FabIcon
 import com.uhc.gymtrack.android.uicomponents.floatingbutton.MultiFabItem
 import com.uhc.gymtrack.android.uicomponents.floatingbutton.MultiFloatingActionButton
 import com.uhc.gymtrack.android.uicomponents.floatingbutton.fabOption
+import com.uhc.gymtrack.presentation.BabyBlueHex
 
 @OptIn(
     ExperimentalFoundationApi::class, ExperimentalAnimationApi::class,
@@ -143,7 +144,7 @@ fun ExerciseListScreen(
                 ) { exercise ->
                     ExerciseItem(
                         exercise = exercise,
-                        backgroundColor = Color(exercise.colorHex),
+                        backgroundColor = Color(exercise.muscle?.colorHex ?: BabyBlueHex),
                         onExerciseClick = {
                             navController.navigate("exercise_detail/${exercise.id}")
                         },
@@ -173,7 +174,13 @@ fun ExerciseListScreen(
                 )
                 {
                     itemsIndexed(state.musclesList) { _, muscle ->
-                        var selected by remember { mutableStateOf(viewModel.checkMuscleFilterSelected(muscle.id)) }
+                        var selected by remember {
+                            mutableStateOf(
+                                viewModel.checkMuscleFilterSelected(
+                                    muscle.id
+                                )
+                            )
+                        }
 
                         FilterChip(
                             selected = !selected,

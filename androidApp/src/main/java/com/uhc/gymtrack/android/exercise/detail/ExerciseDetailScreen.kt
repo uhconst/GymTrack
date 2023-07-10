@@ -31,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.uhc.gymtrack.android.uicomponents.dropdownmenu.DropdownMenuItem
 import com.uhc.gymtrack.android.uicomponents.dropdownmenu.ExposedDropdownMenu
+import com.uhc.gymtrack.presentation.RedOrangeHex
 
 @Composable
 fun ExerciseDetailScreen(
@@ -39,6 +40,7 @@ fun ExerciseDetailScreen(
     viewModel: ExerciseDetailViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val muscleState by viewModel.muscleState.collectAsState()
     val hasExerciseBeenSaved by viewModel.hasExerciseBeenSaved.collectAsState()
 
     LaunchedEffect(key1 = hasExerciseBeenSaved) {
@@ -64,14 +66,15 @@ fun ExerciseDetailScreen(
             onExerciseContentFocusChanged = {
                 viewModel.onExerciseContentFocusChanged(it.isFocused)
             },
-            musclesList = state.musclesList.map {
+            musclesList = muscleState.musclesList.map {
                 DropdownMenuItem(
                     id = it.id ?: 0,
                     label = it.name
                 )
             }, //todo
             muscleSelectedId = state.exerciseMuscleId,
-            onMuscleSelectedChanged = viewModel::onExerciseMuscleChanged
+            onMuscleSelectedChanged = viewModel::onExerciseMuscleChanged,
+            muscleColor = muscleState.muscleColor
         )
     }
 }
@@ -106,9 +109,11 @@ fun AddExercise(
     musclesList: List<DropdownMenuItem>,
     muscleSelectedId: Long,
     onMuscleSelectedChanged: (Long) -> Unit,
+    muscleColor: Long
 ) {
     Column(
         modifier = Modifier
+            .background(Color(muscleColor))
             .fillMaxSize()
             .padding(paddingValues)
             .padding(16.dp, 35.dp)
@@ -173,7 +178,8 @@ fun ScreenPreview() {
             onExerciseContentFocusChanged = {},
             musclesList = emptyList(),
             muscleSelectedId = 0,
-            onMuscleSelectedChanged = {}
+            onMuscleSelectedChanged = {},
+            muscleColor = RedOrangeHex,
         )
     }
 }

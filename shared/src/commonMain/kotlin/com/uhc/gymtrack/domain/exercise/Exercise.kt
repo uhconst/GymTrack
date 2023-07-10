@@ -8,16 +8,16 @@ data class Exercise(
     val id: Long?,
     val name: String,
     val weight: String,
-    val colorHex: Long,
     val created: LocalDateTime,
     val modified: LocalDateTime,
     val muscle: Muscle?
 ) {
     val weightWithKg get() = weight + "kg"
 
+    //todo delete
     companion object {
         private val colors = listOf(RedOrangeHex, RedPinkHex, LightGreenHex, BabyBlueHex, VioletHex)
 
-        fun generateRandomColor() = colors.random()
+        fun generateRandomColor() = colors.random() //todo move somewhere else
     }
 }

@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.uhc.gymtrack.android.exercise.detail.TransparentHintTextField
+import com.uhc.gymtrack.android.uicomponents.dropdownmenu.DropdownMenuItem
+import com.uhc.gymtrack.android.uicomponents.dropdownmenu.ExposedDropdownMenu
 
 @Composable
 fun MuscleDetailScreen(
@@ -37,6 +39,7 @@ fun MuscleDetailScreen(
     viewModel: MuscleDetailViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val colorState by viewModel.colorState.collectAsState()
     val hasMuscleBeenSaved by viewModel.hasMuscleBeenSaved.collectAsState()
 
     LaunchedEffect(key1 = hasMuscleBeenSaved) {
@@ -61,8 +64,15 @@ fun MuscleDetailScreen(
             onMuscleDescriptionChanged = viewModel::onMuscleDescriptionChanged,
             onMuscleDescriptionFocusChanged = {
                 viewModel.onMuscleDescriptionFocusChanged(it.isFocused)
-            }
-
+            },
+            colorsList = colorState.colorsList.map {
+                DropdownMenuItem(
+                    id = it.hex,
+                    label = it.name
+                )
+            }, //todo
+            colorSelectedId = colorState.colorHexSelected,
+            onColorSelectedChanged = viewModel::onColorSelectedChanged
         )
     }
 }
@@ -93,7 +103,10 @@ fun AddMuscle(
     isMuscleDescriptionHintVisible: Boolean,
     onMuscleNameFocusChanged: (FocusState) -> Unit,
     onMuscleDescriptionChanged: (String) -> Unit,
-    onMuscleDescriptionFocusChanged: (FocusState) -> Unit
+    onMuscleDescriptionFocusChanged: (FocusState) -> Unit,
+    colorsList: List<DropdownMenuItem>,
+    colorSelectedId: Long,
+    onColorSelectedChanged: (Long) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -119,6 +132,12 @@ fun AddMuscle(
                 .width(100.dp)
                 .background(color = Color.DarkGray, shape = RoundedCornerShape(5.dp))
                 .padding(5.dp)
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        ExposedDropdownMenu(
+            items = colorsList,
+            selectedId = colorSelectedId,
+            onItemSelected = onColorSelectedChanged
         )
         Spacer(modifier = Modifier.height(16.dp))
         TransparentHintTextField(
@@ -152,7 +171,10 @@ fun ScreenPreview() {
             isMuscleDescriptionHintVisible = false,
             onMuscleNameFocusChanged = {},
             onMuscleDescriptionChanged = {},
-            onMuscleDescriptionFocusChanged = {}
+            onMuscleDescriptionFocusChanged = {},
+            colorsList = emptyList(),
+            colorSelectedId = 0,
+            onColorSelectedChanged = {}
         )
     }
 }

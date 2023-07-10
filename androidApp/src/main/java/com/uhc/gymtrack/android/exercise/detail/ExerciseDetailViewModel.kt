@@ -26,8 +26,8 @@ class ExerciseDetailViewModel @Inject constructor(
     private val exerciseWeight = savedStateHandle.getStateFlow("exerciseWeight", "")
     private val isExerciseWeightFocused =
         savedStateHandle.getStateFlow("isExerciseWeightFocused", false)
-    private val exerciseColor = savedStateHandle.getStateFlow(
-        "exerciseColor",
+    private val muscleColor = savedStateHandle.getStateFlow(
+        "muscleColor",
         Exercise.generateRandomColor()
     )
     private val created = savedStateHandle.getStateFlow(
@@ -41,20 +41,27 @@ class ExerciseDetailViewModel @Inject constructor(
         exerciseName,
         isExerciseNameFocused,
         exerciseWeight,
-//        isExerciseWeightFocused,
-        musclesList,
+        isExerciseWeightFocused,
         exerciseMuscleId
-    ) { title, isTitleFocused, content, /*isExerciseWeightFocused,*/ musclesList, exerciseMuscleId ->
+    ) { title, isTitleFocused, content, isExerciseWeightFocused, exerciseMuscleId ->
         ExerciseDetailState(
             exerciseName = title,
             isExerciseNameVisible = title.isEmpty() && !isTitleFocused,
             exerciseWeight = content,
-            isExerciseWeightHintVisible = content.isEmpty() /*&& !isExerciseWeightFocused*/,
-            exerciseColor = Exercise.generateRandomColor(),
-            musclesList = musclesList ?: emptyList(),
+            isExerciseWeightHintVisible = content.isEmpty() && !isExerciseWeightFocused,
             exerciseMuscleId = exerciseMuscleId
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ExerciseDetailState())
+
+    val muscleState = combine(
+        muscleColor,
+        musclesList
+    ) { muscleColor, musclesList ->
+        ExerciseMuscleDetailState(
+            muscleColor = muscleColor,
+            musclesList = musclesList ?: emptyList(),
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ExerciseMuscleDetailState())
 
     private val _hasExerciseBeenSaved = MutableStateFlow(false)
     val hasExerciseBeenSaved = _hasExerciseBeenSaved.asStateFlow()
@@ -71,7 +78,7 @@ class ExerciseDetailViewModel @Inject constructor(
                 exerciseDataSource.getExerciseById(existingExerciseId)?.let { exercise ->
                     savedStateHandle["exerciseName"] = exercise.name
                     savedStateHandle["exerciseWeight"] = exercise.weight
-                    savedStateHandle["exerciseColor"] = exercise.colorHex
+                    savedStateHandle["muscleColor"] = exercise.muscle?.colorHex
 //                    savedStateHandle["created"] = exercise.created
                     savedStateHandle["exerciseMuscleId"] = exercise.muscle?.id
                 }
@@ -100,7 +107,6 @@ class ExerciseDetailViewModel @Inject constructor(
     }
 
     fun onExerciseMuscleChanged(muscleSelectedId: Long) {
-
         savedStateHandle["exerciseMuscleId"] = muscleSelectedId
     }
 
@@ -113,7 +119,6 @@ class ExerciseDetailViewModel @Inject constructor(
                     id = existingExerciseId,
                     name = exerciseName.value,
                     weight = exerciseWeight.value,
-                    colorHex = exerciseColor.value,
                     created = created.value,
                     modified = DateTimeUtil.now(),
                     muscle = exerciseMuscle

@@ -14,7 +14,6 @@ fun GetExerciseById.toExercise() = Exercise(
     id = id,
     name = name,
     weight = weight,
-    colorHex = colorHex,
     created = Instant
         .fromEpochMilliseconds(created)
         .toLocalDateTime(TimeZone.currentSystemDefault()),
@@ -25,6 +24,7 @@ fun GetExerciseById.toExercise() = Exercise(
         id = id_,
         name = name_,
         description = description,
+        colorHex = colorHex,
         created = Instant
             .fromEpochMilliseconds(created_)
             .toLocalDateTime(TimeZone.currentSystemDefault()),
@@ -39,7 +39,6 @@ fun GetAllExercises.toExercise() =
         id = id,
         name = name,
         weight = weight,
-        colorHex = colorHex,
         created = Instant
             .fromEpochMilliseconds(created)
             .toLocalDateTime(TimeZone.currentSystemDefault()),
@@ -50,6 +49,7 @@ fun GetAllExercises.toExercise() =
             id = id_,
             name = name_,
             description = description,
+            colorHex = colorHex,
             created = Instant
                 .fromEpochMilliseconds(created_)
                 .toLocalDateTime(TimeZone.currentSystemDefault()),
