@@ -21,7 +21,7 @@ class SearchExercises {
     private fun filterByQuery(exercises: List<Exercise>, query: String): List<Exercise> =
         exercises.filter {
             it.name.trim().lowercase().contains(query.lowercase()) ||
-                    it.weight.trim().lowercase().contains(query.lowercase())
+                    it.muscle?.name?.trim()?.lowercase()?.contains(query.lowercase()) ?: false
         }.sortedBy {
             DateTimeUtil.toEpochMillis(it.modified)
         }

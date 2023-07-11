@@ -9,21 +9,24 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,7 +60,7 @@ fun ExerciseDetailScreen(
             exerciseName = state.exerciseName,
             isExerciseNameVisible = state.isExerciseNameVisible,
             onExerciseChanged = viewModel::onExerciseChanged,
-            exerciseWeight = state.exerciseWeight,
+            exerciseWeight = state.exerciseWeight.toString(),
             isExerciseWeightHintVisible = state.isExerciseWeightHintVisible,
             onExerciseNameFocusChanged = {
                 viewModel.onExerciseNameFocusChanged(it.isFocused)
@@ -111,6 +114,8 @@ fun AddExercise(
     onMuscleSelectedChanged: (Long) -> Unit,
     muscleColor: Long
 ) {
+    val pattern = remember { Regex("^\\d+\$") } ///todo util
+
     Column(
         modifier = Modifier
             .background(Color(muscleColor))
@@ -152,6 +157,7 @@ fun AddExercise(
             onFocusChanged = onExerciseContentFocusChanged,
             singleLine = false,
             textStyle = TextStyle(fontSize = 20.sp, color = Color.White),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             modifier = Modifier
                 .width(100.dp)
                 .background(color = Color.DarkGray, shape = RoundedCornerShape(5.dp))

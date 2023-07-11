@@ -8,6 +8,8 @@ import com.uhc.gymtrack.domain.exercise.ExerciseDataSource
 import com.uhc.gymtrack.domain.muscle.Muscle
 import com.uhc.gymtrack.domain.muscle.MuscleDataSource
 import com.uhc.gymtrack.domain.time.DateTimeUtil
+import com.uhc.gymtrack.domain.weight.Weight
+import com.uhc.gymtrack.domain.weight.Weight.Companion.UNIT_KG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -23,7 +25,7 @@ class ExerciseDetailViewModel @Inject constructor(
     private val exerciseName = savedStateHandle.getStateFlow("exerciseName", "")
     private val isExerciseNameFocused =
         savedStateHandle.getStateFlow("isExerciseNameFocused", false)
-    private val exerciseWeight = savedStateHandle.getStateFlow("exerciseWeight", "")
+    private val exerciseWeight = savedStateHandle.getStateFlow("exerciseWeight", 0.0)
     private val isExerciseWeightFocused =
         savedStateHandle.getStateFlow("isExerciseWeightFocused", false)
     private val muscleColor = savedStateHandle.getStateFlow(
@@ -48,7 +50,7 @@ class ExerciseDetailViewModel @Inject constructor(
             exerciseName = title,
             isExerciseNameVisible = title.isEmpty() && !isTitleFocused,
             exerciseWeight = content,
-            isExerciseWeightHintVisible = content.isEmpty() && !isExerciseWeightFocused,
+            isExerciseWeightHintVisible = content == 0.0 && !isExerciseWeightFocused,
             exerciseMuscleId = exerciseMuscleId
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ExerciseDetailState())
@@ -77,7 +79,7 @@ class ExerciseDetailViewModel @Inject constructor(
             viewModelScope.launch {
                 exerciseDataSource.getExerciseById(existingExerciseId)?.let { exercise ->
                     savedStateHandle["exerciseName"] = exercise.name
-                    savedStateHandle["exerciseWeight"] = exercise.weight
+                    savedStateHandle["exerciseWeight"] = exercise.weight.weight
                     savedStateHandle["muscleColor"] = exercise.muscle?.colorHex
 //                    savedStateHandle["created"] = exercise.created
                     savedStateHandle["exerciseMuscleId"] = exercise.muscle?.id
@@ -95,7 +97,7 @@ class ExerciseDetailViewModel @Inject constructor(
     }
 
     fun onExerciseContentChanged(text: String) {
-        savedStateHandle["exerciseWeight"] = text
+        savedStateHandle["exerciseWeight"] = text.toDouble()
     }
 
     fun onExerciseNameFocusChanged(isFocused: Boolean) {
@@ -118,7 +120,12 @@ class ExerciseDetailViewModel @Inject constructor(
                 Exercise(
                     id = existingExerciseId,
                     name = exerciseName.value,
-                    weight = exerciseWeight.value,
+                    weight = Weight(
+                        id = null,
+                        weight = exerciseWeight.value,
+                        unit = UNIT_KG,
+                        created = DateTimeUtil.now()
+                    ),
                     created = created.value,
                     modified = DateTimeUtil.now(),
                     muscle = exerciseMuscle

@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.sp
 import com.uhc.gymtrack.domain.exercise.Exercise
 import com.uhc.gymtrack.domain.muscle.Muscle
 import com.uhc.gymtrack.domain.time.DateTimeUtil
+import com.uhc.gymtrack.domain.weight.Weight
+import com.uhc.gymtrack.domain.weight.Weight.Companion.UNIT_KG
 import com.uhc.gymtrack.presentation.RedOrangeHex
 import kotlinx.datetime.LocalDateTime
 
@@ -113,7 +115,7 @@ fun ExerciseItemPreview() {
         exercise = Exercise(
             id = null,
             name = "Side polia",
-            weight = "35",
+            weight = Weight(id = null, weight = 1.8, unit = UNIT_KG, created = created),
 //            colorHex = 4623,
             created = created,
             modified = modified,

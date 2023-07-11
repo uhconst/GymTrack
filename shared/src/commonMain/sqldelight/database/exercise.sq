@@ -1,7 +1,6 @@
 CREATE TABLE exerciseEntity(
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    weight TEXT NOT NULL,
     created INTEGER NOT NULL,
     modified INTEGER NOT NULL,
     muscleId INTEGER NOT NULL,
@@ -17,28 +16,59 @@ CREATE TABLE muscleEntity(
     modified INTEGER NOT NULL
 );
 
-getAllExercises:
-SELECT *
-FROM exerciseEntity
-INNER JOIN muscleEntity
-WHERE exerciseEntity.muscleId = muscleEntity.id;
-
-getExerciseById:
-SELECT *
-FROM exerciseEntity
-INNER JOIN muscleEntity
-WHERE exerciseEntity.id = ? AND exerciseEntity.muscleId = muscleEntity.id;
+CREATE TABLE weightsEntity(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    weight REAL NOT NULL,
+    unit TEXT NOT NULL,
+    created INTEGER NOT NULL,
+    exerciseId INTEGER,
+    FOREIGN KEY (exerciseId) REFERENCES exerciseEntity(id)
+);
 
 insertExercise:
 INSERT OR REPLACE
 INTO exerciseEntity(
     id,
     name,
-    weight,
     created,
     modified,
     muscleId
+) VALUES(?, ?, ?, ?, ?);
+
+insertWeight:
+INSERT OR REPLACE
+INTO weightsEntity(
+    id,
+    weight,
+    unit,
+    created,
+    exerciseId
+) VALUES(?, ?, ?, ?, ?);
+
+insertMuscle:
+INSERT OR REPLACE
+INTO muscleEntity(
+    id,
+    name,
+    description,
+    colorHex,
+    created,
+    modified
 ) VALUES(?, ?, ?, ?, ?, ?);
+
+getAllExercises:
+SELECT *
+FROM exerciseEntity
+INNER JOIN muscleEntity
+INNER JOIN weightsEntity
+WHERE exerciseEntity.muscleId = muscleEntity.id AND exerciseEntity.id = weightsEntity.exerciseId;
+
+getExerciseById:
+SELECT *
+FROM exerciseEntity
+INNER JOIN muscleEntity
+INNER JOIN weightsEntity
+WHERE exerciseEntity.id = ? AND exerciseEntity.muscleId = muscleEntity.id AND exerciseEntity.id = weightsEntity.exerciseId;
 
 deleteExerciseById:
 DELETE FROM exerciseEntity
@@ -53,17 +83,9 @@ SELECT *
 FROM muscleEntity
 WHERE id = ?;
 
-insertMuscle:
-INSERT OR REPLACE
-INTO muscleEntity(
-    id,
-    name,
-    description,
-    colorHex,
-    created,
-    modified
-) VALUES(?, ?, ?, ?, ?, ?);
-
 deleteMuscleById:
 DELETE FROM muscleEntity
 WHERE id = ?;
+
+lastInsertRowId:
+SELECT last_insert_rowid();
