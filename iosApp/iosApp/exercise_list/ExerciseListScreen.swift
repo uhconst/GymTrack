@@ -8,6 +8,7 @@ struct ExerciseListScreen: View {
     @StateObject var viewModel = ExerciseListViewModel(exerciseDataSource: nil)
     
     @State private var isExerciseSelected = false
+    @State private var isMuscleSelected = false
     @State private var selectedExerciseId: Int64? = nil
     
     init(exerciseDataSource: ExerciseDataSource, muscleDataSource: MuscleDataSource) {
@@ -33,24 +34,17 @@ struct ExerciseListScreen: View {
                     destination: MuscleDetailScreen(
                         muscleDataSource: self.muscleDataSource,
                         muscleId: nil
-                    )) {
+                    ),
+                    isActive: $isMuscleSelected) {
                     EmptyView()
                 }.hidden()
 
-                HideableSearchTextField<ExerciseDetailScreen, MuscleDetailScreen>(onSearchToggled: {
-                    viewModel.toggleIsSearchActive()
-                }, destinationOneProvider: {
-                    ExerciseDetailScreen(
-                        exerciseDataSource: exerciseDataSource,
-                        muscleDataSource: muscleDataSource,
-                        exerciseId: selectedExerciseId
-                    )
-                }, destinationTwoProvider: {
-                    MuscleDetailScreen(
-                        muscleDataSource: muscleDataSource,
-                        muscleId: nil
-                    )
-                }, isSearchActive: viewModel.isSearchActive, searchText: $viewModel.searchText)
+                HideableSearchTextField(
+                    onSearchToggled: {
+                        viewModel.toggleIsSearchActive()
+                    }, destinationOneProvider: { isExerciseSelected = true },   destinationTwoProvider: { isMuscleSelected = true }, isSearchActive: viewModel.isSearchActive,
+                        searchText: $viewModel.searchText
+                )
                 .frame(maxWidth: .infinity, minHeight: 40)
                 .padding()
                 

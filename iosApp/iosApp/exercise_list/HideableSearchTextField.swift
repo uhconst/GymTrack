@@ -1,12 +1,15 @@
 import SwiftUI
 
-struct HideableSearchTextField<Destination1: View, Destination2: View>: View {
+struct HideableSearchTextField: View {
     
     var onSearchToggled: () -> Void
-    var destinationOneProvider: () -> Destination1
-    var destinationTwoProvider: () -> Destination2
+    var destinationOneProvider: () -> Void
+    var destinationTwoProvider: () -> Void
     var isSearchActive: Bool
     @Binding var searchText: String
+
+    @State private var addExerciseClicked: Bool = false
+    @State private var addMuscleClicked: Bool = false
     
     var body: some View {
         HStack {
@@ -20,20 +23,11 @@ struct HideableSearchTextField<Destination1: View, Destination2: View>: View {
                 Image(systemName: isSearchActive ? "xmark" : "magnifyingglass")
                     .foregroundColor(.black)
             }
-//            Menu {
-//                Button("Add Exercise", action: { destinationOneProvider() })
-//                Button("Add Muscle", action: destinationTwo)
-//            } label: {
-//                Image(systemName: "plus")
-//            }
-            
-            NavigationLink(destination: destinationOneProvider()) {
+            Menu {
+                Button("Add Exercise", action: { destinationOneProvider() })
+                Button("Add Muscle", action: { destinationTwoProvider() })
+            } label: {
                 Image(systemName: "plus")
-                    .foregroundColor(.black)
-            }
-            NavigationLink(destination: destinationTwoProvider()) {
-                Image(systemName: "plus")
-                    .foregroundColor(.red)
             }
         }
     }
@@ -43,8 +37,8 @@ struct HideableSearchTextField_Previews: PreviewProvider {
     static var previews: some View {
         HideableSearchTextField(
             onSearchToggled: {},
-            destinationOneProvider: { EmptyView() },
-            destinationTwoProvider: { EmptyView() },
+            destinationOneProvider: {},
+            destinationTwoProvider: { },
             isSearchActive: true,
             searchText: .constant("YouTube")
         )
