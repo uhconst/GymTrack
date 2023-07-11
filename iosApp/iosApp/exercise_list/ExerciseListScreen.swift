@@ -32,7 +32,7 @@ struct ExerciseListScreen: View {
                 NavigationLink(
                     destination: MuscleDetailScreen(
                         muscleDataSource: self.muscleDataSource,
-                        muscleId: 0
+                        muscleId: nil
                     )) {
                     EmptyView()
                 }.hidden()
@@ -48,7 +48,7 @@ struct ExerciseListScreen: View {
                 }, destinationTwoProvider: {
                     MuscleDetailScreen(
                         muscleDataSource: muscleDataSource,
-                        muscleId: 0 //todo
+                        muscleId: nil
                     )
                 }, isSearchActive: viewModel.isSearchActive, searchText: $viewModel.searchText)
                 .frame(maxWidth: .infinity, minHeight: 40)
