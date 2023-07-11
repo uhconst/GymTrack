@@ -4,14 +4,14 @@ import com.uhc.gymtrack.domain.time.DateTimeUtil
 
 class SearchExercises {
 
-    fun execute(exercises: List<Exercise>, query: String, muscleIds: List<Long>): List<Exercise> {
+    fun execute(exercises: List<Exercise>, query: String, muscleIds: List<Long>? = null): List<Exercise> {
         var filteredExercise = exercises
 
         if (query.isNotBlank()) {
             filteredExercise = filterByQuery(exercises, query)
         }
 
-        if (muscleIds.isNotEmpty()) {
+        if (muscleIds?.isNotEmpty() == true) {
             filteredExercise = filterByMuscleId(filteredExercise, muscleIds)
         }
 

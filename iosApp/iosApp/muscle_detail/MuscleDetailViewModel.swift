@@ -8,6 +8,8 @@ extension MuscleDetailScreen {
         private var muscleId: Int64? = nil
         @Published var muscleName = ""
         @Published var muscleDescription = ""
+        @Published var muscleColor: Int64 = Exercise.Companion().generateRandomColor()
+        @Published var colorsList = MuscleColor.Companion().colors
         
         init(muscleDataSource: MuscleDataSource? = nil) {
             self.muscleDataSource = muscleDataSource
@@ -19,13 +21,14 @@ extension MuscleDetailScreen {
                 muscleDataSource?.getMuscleById(id: id!, completionHandler: { muscle, error in
                     self.muscleName = muscle?.name ?? ""
                     self.muscleDescription = muscle?.description ?? ""
+                    self.muscleColor = muscle?.colorHex ?? Exercise.Companion().generateRandomColor()
                 })
             }
         }
         
         func saveMuscle(onSaved: @escaping () -> Void) {
             muscleDataSource?.insertMuscle( //todo created
-                muscle: Muscle(id: muscleId == nil ? nil : KotlinLong(value: muscleId!), name: self.muscleName, description: self.muscleDescription, created: DateTimeUtil().now(), modified: DateTimeUtil().now()), completionHandler: { error in
+                muscle: Muscle(id: muscleId == nil ? nil : KotlinLong(value: muscleId!), name: self.muscleName, description: self.muscleDescription, colorHex: self.muscleColor, created: DateTimeUtil().now(), modified: DateTimeUtil().now()), completionHandler: { error in
                     onSaved()
                 })
         }

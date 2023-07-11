@@ -9,6 +9,9 @@ struct ExerciseDetailScreen: View {
     
     @Environment(\.presentationMode) var presentation
     
+    @State private var selection = "Red"
+    let colors = ["Red", "Green", "Blue", "Black", "Tartan"]
+    
     init(exerciseDataSource: ExerciseDataSource, exerciseId: Int64? = nil) {
         self.exerciseDataSource = exerciseDataSource
         self.exerciseId = exerciseId
@@ -18,6 +21,11 @@ struct ExerciseDetailScreen: View {
         VStack(alignment: .leading) {
             TextField("Enter a name for the exercise...", text: $viewModel.exerciseName)
                 .font(.title)
+            Picker("Select a paint color", selection: $selection) {
+                ForEach(colors, id: \.self) {
+                    Text($0)
+                }
+            }.pickerStyle(.menu)
             TextField("Enter exercise weight...", text: $viewModel.exerciseWeight)
             Spacer()
         }.toolbar(content: {

@@ -23,7 +23,7 @@ extension ExerciseDetailScreen {
                 exerciseDataSource?.getExerciseById(id: id!, completionHandler: { exercise, error in
                     self.exerciseName = exercise?.name ?? ""
                     self.exerciseWeight = exercise?.weight ?? ""
-                    self.exerciseColor = exercise?.colorHex ?? Exercise.Companion().generateRandomColor()
+                    self.exerciseColor = exercise?.muscle?.colorHex ?? Exercise.Companion().generateRandomColor()
                     self.exerciseMuscleId = exercise?.muscle?.id?.int64Value ?? 0
                 })
             }
@@ -39,7 +39,7 @@ extension ExerciseDetailScreen {
             let exerciseMuscle: Muscle? = self.musclesList.first(where: { $0.id?.int64Value == self.exerciseMuscleId })
             
             exerciseDataSource?.insertExercise( //todo created
-                exercise: Exercise(id: exerciseId == nil ? nil : KotlinLong(value: exerciseId!), name: self.exerciseName, weight: self.exerciseWeight, colorHex: self.exerciseColor, created: DateTimeUtil().now(), modified: DateTimeUtil().now(), muscle: exerciseMuscle), completionHandler: { error in
+                exercise: Exercise(id: exerciseId == nil ? nil : KotlinLong(value: exerciseId!), name: self.exerciseName, weight: self.exerciseWeight, created: DateTimeUtil().now(), modified: DateTimeUtil().now(), muscle: exerciseMuscle), completionHandler: { error in
                     onSaved()
                 })
         }

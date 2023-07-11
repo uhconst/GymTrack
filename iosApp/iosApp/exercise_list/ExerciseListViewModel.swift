@@ -11,7 +11,7 @@ extension ExerciseListScreen {
         @Published private(set) var filteredExercises = [Exercise]()
         @Published var searchText = "" {
             didSet {
-                self.filteredExercises = searchExercises.execute(exercises: self.exercises, query: searchText)
+                self.filteredExercises = searchExercises.execute(exercises: self.exercises, query: searchText, muscleIds: nil) //muscleIdsFilter
             }
         }
         @Published private(set) var isSearchActive = false

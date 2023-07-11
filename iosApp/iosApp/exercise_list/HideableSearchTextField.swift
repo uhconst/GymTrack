@@ -20,6 +20,13 @@ struct HideableSearchTextField<Destination1: View, Destination2: View>: View {
                 Image(systemName: isSearchActive ? "xmark" : "magnifyingglass")
                     .foregroundColor(.black)
             }
+//            Menu {
+//                Button("Add Exercise", action: { destinationOneProvider() })
+//                Button("Add Muscle", action: destinationTwo)
+//            } label: {
+//                Image(systemName: "plus")
+//            }
+            
             NavigationLink(destination: destinationOneProvider()) {
                 Image(systemName: "plus")
                     .foregroundColor(.black)

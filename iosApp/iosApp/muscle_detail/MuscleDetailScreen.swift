@@ -9,6 +9,8 @@ struct MuscleDetailScreen: View {
     
     @Environment(\.presentationMode) var presentation
     
+//    @State private var selection = $viewModel.muscleColor
+    
     init(muscleDataSource: MuscleDataSource, muscleId: Int64? = nil) {
         self.muscleDataSource = muscleDataSource
         self.muscleId = muscleId
@@ -18,6 +20,11 @@ struct MuscleDetailScreen: View {
         VStack(alignment: .leading) {
             TextField("Enter the muscle name...", text: $viewModel.muscleName)
                 .font(.title)
+            Picker("Select muscle color", selection: $viewModel.muscleColor) {
+                ForEach(viewModel.colorsList, id: \.hex) {
+                    Text($0.name)
+                }
+            }.pickerStyle(.menu)
             TextField("Enter the muscle description...", text: $viewModel.muscleDescription)
             Spacer()
         }.toolbar(content: {

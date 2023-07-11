@@ -29,7 +29,7 @@ struct ExerciseItem: View {
             }
         }
         .padding()
-        .background(Color(hex: exercise.colorHex))
+        .background(Color(hex: exercise.muscle?.colorHex ?? 0xFF2341))
         .clipShape(RoundedRectangle(cornerRadius: 5.0))
     }
 }
@@ -37,7 +37,7 @@ struct ExerciseItem: View {
 struct ExerciseItem_Previews: PreviewProvider {
     static var previews: some View {
         ExerciseItem(
-            exercise: Exercise(id: nil, name: "My exercise", weight: "Exercise weight", colorHex: 0xFF2341, created: DateTimeUtil().now(), modified: DateTimeUtil().now(), muscle: nil),
+            exercise: Exercise(id: nil, name: "My exercise", weight: "Exercise weight", created: DateTimeUtil().now(), modified: DateTimeUtil().now(), muscle: nil),
             onDeleteClick: {}
         )
     }
