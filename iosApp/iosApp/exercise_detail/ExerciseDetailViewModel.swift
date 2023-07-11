@@ -13,8 +13,9 @@ extension ExerciseDetailScreen {
         @Published var exerciseMuscleId: Int64? = nil
         @Published var musclesList: [Muscle] = []
         
-        init(exerciseDataSource: ExerciseDataSource? = nil) {
+        init(exerciseDataSource: ExerciseDataSource? = nil, muscleDataSource: MuscleDataSource? = nil) {
             self.exerciseDataSource = exerciseDataSource
+            self.muscleDataSource = muscleDataSource
         }
         
         func loadExerciseIfExists(id: Int64?) {
@@ -44,8 +45,9 @@ extension ExerciseDetailScreen {
                 })
         }
         
-        func setParamsAndLoadExercise(exerciseDataSource: ExerciseDataSource, exerciseId: Int64?) {
+        func setParamsAndLoadExercise(exerciseDataSource: ExerciseDataSource, muscleDataSource: MuscleDataSource, exerciseId: Int64?) {
             self.exerciseDataSource = exerciseDataSource
+            self.muscleDataSource = muscleDataSource
             loadExerciseIfExists(id: exerciseId)
         }
     }

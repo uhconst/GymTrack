@@ -21,6 +21,7 @@ struct ExerciseListScreen: View {
                 NavigationLink(
                     destination: ExerciseDetailScreen(
                         exerciseDataSource: self.exerciseDataSource,
+                        muscleDataSource: self.muscleDataSource,
                         exerciseId: selectedExerciseId
                     ),
                     isActive: $isExerciseSelected
@@ -41,6 +42,7 @@ struct ExerciseListScreen: View {
                 }, destinationOneProvider: {
                     ExerciseDetailScreen(
                         exerciseDataSource: exerciseDataSource,
+                        muscleDataSource: muscleDataSource,
                         exerciseId: selectedExerciseId
                     )
                 }, destinationTwoProvider: {
