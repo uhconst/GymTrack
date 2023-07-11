@@ -17,9 +17,20 @@ struct ExerciseItem: View {
                 }
             }.padding(.bottom, 3)
             
-            Text(exercise.weight)
-                .fontWeight(.light)
-                .padding(.bottom, 3)
+            HStack {
+                Text(exercise.weightWithKg)
+                    .fontWeight(.light)
+                    .padding(EdgeInsets(top: 2, leading: 7, bottom: 2, trailing: 7))
+                    .background(Color.white)
+                    .clipShape(Capsule())
+                    
+                Spacer()
+                Text(exercise.muscle?.name ?? "-")
+                    .fontWeight(.light)
+                    .padding(EdgeInsets(top: 2, leading: 7, bottom: 2, trailing: 7))
+                    .background(Color.white)
+                    .clipShape(Capsule())
+            }.padding(.bottom, 3)
             
             HStack {
                 Spacer()
