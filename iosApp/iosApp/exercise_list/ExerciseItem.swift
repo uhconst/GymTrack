@@ -48,7 +48,19 @@ struct ExerciseItem: View {
 struct ExerciseItem_Previews: PreviewProvider {
     static var previews: some View {
         ExerciseItem(
-            exercise: Exercise(id: nil, name: "My exercise", weight: "Exercise weight", created: DateTimeUtil().now(), modified: DateTimeUtil().now(), muscle: nil),
+            exercise: Exercise(
+                id: nil,
+                name: "My exercise",
+                weight: Weight(
+                    id: nil,
+                    weight: 18.5,
+                    unit: Weight.companion.UNIT_KG,
+                    created: DateTimeUtil().now()
+                ),
+                    created: DateTimeUtil().now(),
+                    modified: DateTimeUtil().now(),
+                    muscle: nil
+                ),
             onDeleteClick: {}
         )
     }

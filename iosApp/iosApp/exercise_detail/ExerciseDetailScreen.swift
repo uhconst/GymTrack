@@ -16,6 +16,10 @@ struct ExerciseDetailScreen: View {
         self.exerciseId = exerciseId
     }
     
+    var enteredNumberFormatted: Double {
+        return (Double(viewModel.exerciseWeight) ?? 0) / 100
+    }
+
     var body: some View {
         VStack(alignment: .leading) {
             TextField("Enter a name for the exercise...", text: $viewModel.exerciseName)
@@ -25,7 +29,18 @@ struct ExerciseDetailScreen: View {
                     Text($0.name)
                 }
             }.pickerStyle(.menu)
-            TextField("Enter exercise weight...", text: $viewModel.exerciseWeight)
+            ZStack(alignment: .leading) {
+                        TextField(
+                            "",
+                            text: $viewModel.exerciseWeight
+                        )
+                            .keyboardType(.numberPad).foregroundColor(.clear)
+                            .textFieldStyle(PlainTextFieldStyle())
+                            .disableAutocorrection(true)
+                            .accentColor(.clear)
+                        Text("\(enteredNumberFormatted, specifier: "%.2f")")
+                    }
+            
             Spacer()
         }.toolbar(content: {
             Button(action: {
