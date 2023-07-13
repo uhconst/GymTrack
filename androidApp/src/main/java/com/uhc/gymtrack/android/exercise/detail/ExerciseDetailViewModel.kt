@@ -28,10 +28,7 @@ class ExerciseDetailViewModel @Inject constructor(
         "muscleColor",
         Exercise.generateRandomColor()
     )
-    private val created = savedStateHandle.getStateFlow(
-        "created",
-        DateTimeUtil.now()
-    )
+    private val created = savedStateHandle.getStateFlow("created", null)
     private val exerciseMuscleId = savedStateHandle.getStateFlow("exerciseMuscleId", 0L)
     private val musclesList = savedStateHandle.getStateFlow<List<Muscle>?>("musclesList", null)
 
@@ -114,7 +111,7 @@ class ExerciseDetailViewModel @Inject constructor(
                         unit = UNIT_KG,
                         created = DateTimeUtil.now()
                     ),
-                    created = created.value,
+                    created = created.value ?: DateTimeUtil.now(),
                     modified = DateTimeUtil.now(),
                     muscle = exerciseMuscle
                 )
