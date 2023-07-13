@@ -1,19 +1,13 @@
 package com.uhc.gymtrack.android.exercise.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.InputChip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -140,7 +134,8 @@ fun AddExercise(
         ExposedDropdownMenu(
             items = musclesList,
             selectedId = muscleSelectedId,
-            onItemSelected = onMuscleSelectedChanged
+            onItemSelected = onMuscleSelectedChanged,
+            label = "Muscle"
         )
         Spacer(modifier = Modifier.height(20.dp))
         TransparentHintTextField(

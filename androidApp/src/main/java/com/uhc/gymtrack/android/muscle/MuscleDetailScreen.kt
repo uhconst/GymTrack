@@ -181,7 +181,8 @@ fun AddMuscle(
         ExposedDropdownMenu(
             items = colorsList,
             selectedId = colorSelectedId,
-            onItemSelected = onColorSelectedChanged
+            onItemSelected = onColorSelectedChanged,
+            label = "Color"
         )
         Spacer(modifier = Modifier.height(24.dp))
         TextField(
