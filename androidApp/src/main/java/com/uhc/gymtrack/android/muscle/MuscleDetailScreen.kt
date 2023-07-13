@@ -1,37 +1,48 @@
 package com.uhc.gymtrack.android.muscle
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
+import androidx.compose.animation.core.Spring.DampingRatioNoBouncy
+import androidx.compose.animation.core.SpringSpec
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.uhc.gymtrack.android.exercise.detail.TransparentHintTextField
 import com.uhc.gymtrack.android.uicomponents.dropdownmenu.DropdownMenuItem
 import com.uhc.gymtrack.android.uicomponents.dropdownmenu.ExposedDropdownMenu
+import com.uhc.gymtrack.presentation.BabyBlueHex
+import com.uhc.gymtrack.presentation.RedOrangeHex
+import kotlinx.coroutines.launch
 
 @Composable
 fun MuscleDetailScreen(
@@ -39,8 +50,12 @@ fun MuscleDetailScreen(
     viewModel: MuscleDetailViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    val colorState by viewModel.colorState.collectAsState()
     val hasMuscleBeenSaved by viewModel.hasMuscleBeenSaved.collectAsState()
+
+    val coroutineScope = rememberCoroutineScope()
+
+    val animationBackgroundScale = remember { Animatable(initialValue = 0f) }
+    val animationBackgroundCorner = remember { Animatable(initialValue = 100f) }
 
     LaunchedEffect(key1 = hasMuscleBeenSaved) {
         if (hasMuscleBeenSaved) {
@@ -49,30 +64,48 @@ fun MuscleDetailScreen(
     }
 
     Scaffold(
-        floatingActionButton = { FloatingAddButton(viewModel::saveMuscle) }
+        floatingActionButton = { FloatingAddButton(viewModel::saveMuscle) },
     ) { padding ->
         AddMuscle(
             paddingValues = padding,
             muscleName = state.muscleName,
-            isMuscleNameVisible = state.isMuscleNameVisible,
             onMuscleChanged = viewModel::onMuscleChanged,
             muscleDescription = state.muscleDescription,
-            isMuscleDescriptionHintVisible = state.isMuscleDescriptionHintVisible,
-            onMuscleNameFocusChanged = {
-                viewModel.onMuscleNameFocusChanged(it.isFocused)
-            },
             onMuscleDescriptionChanged = viewModel::onMuscleDescriptionChanged,
-            onMuscleDescriptionFocusChanged = {
-                viewModel.onMuscleDescriptionFocusChanged(it.isFocused)
-            },
-            colorsList = colorState.colorsList.map {
+            colorsList = state.colorsList.map {
                 DropdownMenuItem(
                     id = it.hex,
                     label = it.name
                 )
             }, //todo
-            colorSelectedId = colorState.colorHexSelected,
-            onColorSelectedChanged = viewModel::onColorSelectedChanged
+            colorSelectedId = state.colorHexSelected,
+            onColorSelectedChanged = {
+                coroutineScope.launch {
+                    animationBackgroundScale.snapTo(0f)
+                    animationBackgroundScale.animateTo(
+                        targetValue = 1f,
+                        animationSpec = SpringSpec(
+                            dampingRatio = DampingRatioNoBouncy,
+                            stiffness = 100f
+                        )
+                    )
+                }
+
+                coroutineScope.launch {
+                    animationBackgroundCorner.snapTo(100f)
+                    animationBackgroundCorner.animateTo(
+                        targetValue = 0f,
+                        animationSpec = SpringSpec(
+                            dampingRatio = DampingRatioNoBouncy,
+                            stiffness = 20f
+                        ),
+                    )
+                }
+                viewModel.onColorSelectedChanged(it)
+            },
+            animatableScale = animationBackgroundScale,
+            roundedCornerShapePercentage = animationBackgroundCorner,
+            backgroundColorState = state.previousColorHexSelected
         )
     }
 }
@@ -97,19 +130,36 @@ fun FloatingAddButton(
 fun AddMuscle(
     paddingValues: PaddingValues,
     muscleName: String,
-    isMuscleNameVisible: Boolean,
     onMuscleChanged: (String) -> Unit,
     muscleDescription: String,
-    isMuscleDescriptionHintVisible: Boolean,
-    onMuscleNameFocusChanged: (FocusState) -> Unit,
     onMuscleDescriptionChanged: (String) -> Unit,
-    onMuscleDescriptionFocusChanged: (FocusState) -> Unit,
     colorsList: List<DropdownMenuItem>,
     colorSelectedId: Long,
     onColorSelectedChanged: (Long) -> Unit,
+    animatableScale: Animatable<Float, AnimationVector1D>,
+    roundedCornerShapePercentage: Animatable<Float, AnimationVector1D>,
+    backgroundColorState: Long
 ) {
+
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Color(backgroundColorState))
+    )
+
+    Box(
+        Modifier
+            .scale(scale = animatableScale.value)
+            .clip(
+                RoundedCornerShape(roundedCornerShapePercentage.value.toInt())
+            )
+            .fillMaxSize()
+            .background(Color(colorSelectedId))
+    )
+
     Column(
         modifier = Modifier
+            .background(Color.Transparent)
             .fillMaxSize()
             .padding(paddingValues)
             .padding(16.dp, 35.dp)
@@ -120,42 +170,31 @@ fun AddMuscle(
             fontSize = 30.sp
         )
         Spacer(modifier = Modifier.height(25.dp))
-        TransparentHintTextField(
-            text = muscleName,
-            hint = "Muscle:",
-            isHintVisible = isMuscleNameVisible,
-            onValueChanged = onMuscleChanged,
-            onFocusChanged = onMuscleNameFocusChanged,
+        TextField(
+            value = muscleName,
+            onValueChange = onMuscleChanged,
+            label = { Text("Muscle") },
             singleLine = true,
-            textStyle = TextStyle(fontSize = 20.sp, color = Color.White),
-            modifier = Modifier
-                .width(100.dp)
-                .background(color = Color.DarkGray, shape = RoundedCornerShape(5.dp))
-                .padding(5.dp)
+            modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         ExposedDropdownMenu(
             items = colorsList,
             selectedId = colorSelectedId,
             onItemSelected = onColorSelectedChanged
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        TransparentHintTextField(
-            text = muscleDescription,
-            hint = "Enter the muscle description...",
-            isHintVisible = isMuscleDescriptionHintVisible,
-            onValueChanged = onMuscleDescriptionChanged,
-            onFocusChanged = onMuscleDescriptionFocusChanged,
-            singleLine = false,
-            textStyle = TextStyle(fontSize = 20.sp, color = Color.White),
-            modifier = Modifier
-                .weight(1f)
-                .background(color = Color.DarkGray, shape = RoundedCornerShape(5.dp))
-                .padding(15.dp)
+        Spacer(modifier = Modifier.height(24.dp))
+        TextField(
+            value = muscleDescription,
+            onValueChange = onMuscleDescriptionChanged,
+            label = { Text("Description") },
+            maxLines = 10,
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
 
+@SuppressLint("UnrememberedAnimatable", "UnrememberedMutableState")
 @Preview
 @Composable
 fun ScreenPreview() {
@@ -164,17 +203,16 @@ fun ScreenPreview() {
     ) {
         AddMuscle(
             paddingValues = it,
-            muscleName = "Muscle:",
-            isMuscleNameVisible = false,
+            muscleName = "Chest",
             onMuscleChanged = {},
             muscleDescription = "Test muscle",
-            isMuscleDescriptionHintVisible = false,
-            onMuscleNameFocusChanged = {},
             onMuscleDescriptionChanged = {},
-            onMuscleDescriptionFocusChanged = {},
             colorsList = emptyList(),
-            colorSelectedId = 0,
-            onColorSelectedChanged = {}
+            colorSelectedId = RedOrangeHex,
+            onColorSelectedChanged = {},
+            animatableScale = Animatable(initialValue = .4f),
+            roundedCornerShapePercentage = Animatable(initialValue = 100f),
+            backgroundColorState = BabyBlueHex
         )
     }
 }

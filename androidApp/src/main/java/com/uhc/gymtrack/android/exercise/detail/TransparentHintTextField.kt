@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 
+//todo delete
 @Composable
 fun TransparentHintTextField(
     text: String,
@@ -26,7 +27,8 @@ fun TransparentHintTextField(
     onFocusChanged: (FocusState) -> Unit
 ) {
     Box(modifier = modifier) {
-        BasicTextField(value = text,
+        BasicTextField(
+            value = text,
             onValueChange = onValueChanged,
             singleLine = singleLine,
             textStyle = textStyle,
@@ -35,11 +37,10 @@ fun TransparentHintTextField(
                 .fillMaxWidth()
                 .onFocusChanged { state ->
                     onFocusChanged(state)
-                })
+                }
+        )
         if (isHintVisible) {
-            Text(
-                text = hint, style = textStyle, color = Color.Black
-            )
+            Text(text = hint, style = textStyle, color = Color.Black)
         }
     }
 }

@@ -1,8 +1,11 @@
 package com.uhc.gymtrack.android.muscle
 
+import com.uhc.gymtrack.domain.colors.MuscleColor
+
 data class MuscleDetailState(
     val muscleName: String = "",
-    val isMuscleNameVisible: Boolean = false,
     val muscleDescription: String = "",
-    val isMuscleDescriptionHintVisible: Boolean = false
+    val previousColorHexSelected: Long = 0,
+    val colorHexSelected: Long = 0,
+    val colorsList: List<MuscleColor> = emptyList()
 )

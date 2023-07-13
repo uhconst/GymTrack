@@ -1,26 +1,22 @@
 package com.uhc.gymtrack.android.exercise.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.InputChip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
@@ -114,8 +110,6 @@ fun AddExercise(
     onMuscleSelectedChanged: (Long) -> Unit,
     muscleColor: Long
 ) {
-    val pattern = remember { Regex("^\\d+\$") } ///todo util
-
     Column(
         modifier = Modifier
             .background(Color(muscleColor))
@@ -189,3 +183,32 @@ fun ScreenPreview() {
         )
     }
 }
+
+// TODO InputChip, future implementation
+/*@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FilterItem(
+    text: String,
+    onClose: () -> Unit,
+) {
+    InputChip(
+        selected = false,
+        modifier = Modifier
+            .padding(all = 8.dp)
+            .clickable { onClose() },
+        label = { Text(text) },
+        trailingIcon = {
+            IconButton(onClick = onClose) {
+                Icon(Icons.Filled.Close, contentDescription = "Close")
+            }
+        },
+        onClick = {},
+    )
+}
+
+// TODO InputChip, future implementation
+@Preview
+@Composable
+fun PreviewFilterItem() {
+    FilterItem(text = "Back", onClose = {})
+}*/

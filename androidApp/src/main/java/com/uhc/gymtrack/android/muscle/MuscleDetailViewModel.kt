@@ -23,44 +23,35 @@ class MuscleDetailViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
+    private val randomColor = Exercise.generateRandomColor()
     private val muscleName = savedStateHandle.getStateFlow("muscleName", "")
-    private val isMuscleNameFocused = savedStateHandle.getStateFlow("isMuscleNameFocused", false)
     private val muscleDescription = savedStateHandle.getStateFlow("muscleDescription", "")
-    private val isMuscleDescriptionFocused =
-        savedStateHandle.getStateFlow("isMuscleDescriptionFocused", false)
     private val muscleModified =
         savedStateHandle.getStateFlow("muscleModified", "") //todo
-    private val muscleColor = savedStateHandle.getStateFlow(
-        "muscleColor",
-        Exercise.generateRandomColor()
+    private val previousMuscleColorSelected = savedStateHandle.getStateFlow(
+        "previousMuscleColorSelected",
+        randomColor
     )
+    private val muscleColor = savedStateHandle.getStateFlow("muscleColor", randomColor)
 
     private val colorsList =
         savedStateHandle.getStateFlow<List<MuscleColor>>("colorsList", emptyList())
 
     val state = combine(
         muscleName,
-        isMuscleNameFocused,
         muscleDescription,
-        isMuscleDescriptionFocused
-    ) { name, isTitleFocused, description, isMuscleDescriptionFocused ->
-        MuscleDetailState(
-            muscleName = name,
-            isMuscleNameVisible = name.isEmpty() && !isTitleFocused,
-            muscleDescription = description,
-            isMuscleDescriptionHintVisible = description.isEmpty() && !isMuscleDescriptionFocused
-        )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), MuscleDetailState())
-
-    val colorState = combine(
+        previousMuscleColorSelected,
         muscleColor,
         colorsList
-    ) { muscleColor, colorsList ->
-        MuscleColorState(
+    ) { name, description, previousMuscleColorSelected, muscleColor, colorsList ->
+        MuscleDetailState(
+            muscleName = name,
+            muscleDescription = description,
+            previousColorHexSelected = previousMuscleColorSelected,
             colorHexSelected = muscleColor,
             colorsList = colorsList
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), MuscleColorState())
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), MuscleDetailState())
 
     private val _hasMuscleBeenSaved = MutableStateFlow(false)
     val hasMuscleBeenSaved = _hasMuscleBeenSaved.asStateFlow()
@@ -82,6 +73,7 @@ class MuscleDetailViewModel @Inject constructor(
                     savedStateHandle["muscleDescription"] = muscle.description
                     savedStateHandle["muscleModified"] = muscle.modified
                     savedStateHandle["muscleColor"] = muscle.colorHex
+                    savedStateHandle["previousMuscleColorSelected"] = muscle.colorHex
                 }
             }
         }
@@ -95,15 +87,8 @@ class MuscleDetailViewModel @Inject constructor(
         savedStateHandle["muscleDescription"] = text
     }
 
-    fun onMuscleNameFocusChanged(isFocused: Boolean) {
-        savedStateHandle["isMuscleNameFocused"] = isFocused
-    }
-
-    fun onMuscleDescriptionFocusChanged(isFocused: Boolean) {
-        savedStateHandle["isMuscleDescriptionFocused"] = isFocused
-    }
-
     fun onColorSelectedChanged(colorHex: Long) {
+        savedStateHandle["previousMuscleColorSelected"] = muscleColor.value
         savedStateHandle["muscleColor"] = colorHex
     }
 

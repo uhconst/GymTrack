@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
@@ -55,13 +56,14 @@ fun ExposedDropdownMenu(
                         contentDescription = "Dropdown Arrow",
                         Modifier.rotate(rotation),
                     )
-                }
+                },
+                modifier = Modifier.fillMaxWidth()
             )
         },
         dropdownMenu = { boxWidth, itemHeight ->
             Box(
                 Modifier
-                    .width(boxWidth)
+                    .fillMaxWidth()
                     .wrapContentSize(Alignment.TopStart)
             ) {
                 DropdownMenu(
@@ -91,7 +93,7 @@ private fun ExposedDropdownMenuStack(
     textField: @Composable () -> Unit,
     dropdownMenu: @Composable (boxWidth: Dp, itemHeight: Dp) -> Unit
 ) {
-    SubcomposeLayout { constraints ->
+    SubcomposeLayout(modifier = Modifier.fillMaxWidth()) { constraints ->
         val textFieldPlaceable =
             subcompose(ExposedDropdownMenuSlot.TextField, textField).first().measure(constraints)
         val dropdownPlaceable = subcompose(ExposedDropdownMenuSlot.Dropdown) {
