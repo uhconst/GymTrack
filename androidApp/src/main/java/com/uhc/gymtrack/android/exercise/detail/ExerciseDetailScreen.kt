@@ -21,8 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -45,6 +45,8 @@ fun ExerciseDetailScreen(
     val muscleState by viewModel.muscleState.collectAsState()
     val hasExerciseBeenSaved by viewModel.hasExerciseBeenSaved.collectAsState()
 
+    val pattern = remember { Regex("^\\d+\$") } ///todo util
+
     LaunchedEffect(key1 = hasExerciseBeenSaved) {
         if (hasExerciseBeenSaved) {
             navController.popBackStack()
@@ -57,17 +59,9 @@ fun ExerciseDetailScreen(
         AddExercise(
             paddingValues = padding,
             exerciseName = state.exerciseName,
-            isExerciseNameVisible = state.isExerciseNameVisible,
             onExerciseChanged = viewModel::onExerciseChanged,
             exerciseWeight = state.exerciseWeight.toString(),
-            isExerciseWeightHintVisible = state.isExerciseWeightHintVisible,
-            onExerciseNameFocusChanged = {
-                viewModel.onExerciseNameFocusChanged(it.isFocused)
-            },
             onExerciseContentChanged = viewModel::onExerciseContentChanged,
-            onExerciseContentFocusChanged = {
-                viewModel.onExerciseContentFocusChanged(it.isFocused)
-            },
             musclesList = muscleState.musclesList.map {
                 DropdownMenuItem(
                     id = it.id ?: 0,
@@ -101,13 +95,9 @@ fun FloatingAddButton(
 fun AddExercise(
     paddingValues: PaddingValues,
     exerciseName: String,
-    isExerciseNameVisible: Boolean,
     onExerciseChanged: (String) -> Unit,
     exerciseWeight: String,
-    isExerciseWeightHintVisible: Boolean,
-    onExerciseNameFocusChanged: (FocusState) -> Unit,
     onExerciseContentChanged: (String) -> Unit,
-    onExerciseContentFocusChanged: (FocusState) -> Unit,
     musclesList: List<DropdownMenuItem>,
     muscleSelectedId: Long,
     onMuscleSelectedChanged: (Long) -> Unit,
@@ -161,13 +151,9 @@ fun ScreenPreview() {
         AddExercise(
             paddingValues = it,
             exerciseName = "Exercise:",
-            isExerciseNameVisible = false,
             onExerciseChanged = {},
             exerciseWeight = "32",
-            isExerciseWeightHintVisible = false,
-            onExerciseNameFocusChanged = {},
             onExerciseContentChanged = {},
-            onExerciseContentFocusChanged = {},
             musclesList = emptyList(),
             muscleSelectedId = 0,
             onMuscleSelectedChanged = {},

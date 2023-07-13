@@ -23,11 +23,7 @@ class ExerciseDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val exerciseName = savedStateHandle.getStateFlow("exerciseName", "")
-    private val isExerciseNameFocused =
-        savedStateHandle.getStateFlow("isExerciseNameFocused", false)
-    private val exerciseWeight = savedStateHandle.getStateFlow("exerciseWeight", 0.0)
-    private val isExerciseWeightFocused =
-        savedStateHandle.getStateFlow("isExerciseWeightFocused", false)
+    private val exerciseWeight = savedStateHandle.getStateFlow("exerciseWeight", 0.00)
     private val muscleColor = savedStateHandle.getStateFlow(
         "muscleColor",
         Exercise.generateRandomColor()
@@ -41,17 +37,17 @@ class ExerciseDetailViewModel @Inject constructor(
 
     val state = combine(
         exerciseName,
-        isExerciseNameFocused,
         exerciseWeight,
-        isExerciseWeightFocused,
-        exerciseMuscleId
-    ) { title, isTitleFocused, content, isExerciseWeightFocused, exerciseMuscleId ->
+        exerciseMuscleId,
+        muscleColor,
+        musclesList
+    ) { title, content, exerciseMuscleId, muscleColor, musclesList ->
         ExerciseDetailState(
             exerciseName = title,
-            isExerciseNameVisible = title.isEmpty() && !isTitleFocused,
             exerciseWeight = content,
-            isExerciseWeightHintVisible = content == 0.0 && !isExerciseWeightFocused,
-            exerciseMuscleId = exerciseMuscleId
+            exerciseMuscleId = exerciseMuscleId,
+            muscleColor = muscleColor,
+            musclesList = musclesList ?: emptyList(),
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ExerciseDetailState())
 
@@ -98,14 +94,6 @@ class ExerciseDetailViewModel @Inject constructor(
 
     fun onExerciseContentChanged(text: String) {
         savedStateHandle["exerciseWeight"] = text.toDouble()
-    }
-
-    fun onExerciseNameFocusChanged(isFocused: Boolean) {
-        savedStateHandle["isExerciseNameFocused"] = isFocused
-    }
-
-    fun onExerciseContentFocusChanged(isFocused: Boolean) {
-        savedStateHandle["isExerciseWeightFocused"] = isFocused
     }
 
     fun onExerciseMuscleChanged(muscleSelectedId: Long) {
