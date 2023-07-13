@@ -1,8 +1,14 @@
 package com.uhc.gymtrack.android.exercise.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -10,11 +16,14 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -117,18 +126,12 @@ fun AddExercise(
             fontSize = 30.sp
         )
         Spacer(modifier = Modifier.height(25.dp))
-        TransparentHintTextField(
-            text = exerciseName,
-            hint = "Exercise:",
-            isHintVisible = isExerciseNameVisible,
-            onValueChanged = onExerciseChanged,
-            onFocusChanged = onExerciseNameFocusChanged,
+        TextField(
+            value = exerciseName,
+            onValueChange = onExerciseChanged,
+            label = { Text("Exercise") },
             singleLine = true,
-            textStyle = TextStyle(fontSize = 20.sp, color = Color.White),
-            modifier = Modifier
-                .width(100.dp)
-                .background(color = Color.DarkGray, shape = RoundedCornerShape(5.dp))
-                .padding(5.dp)
+            modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(20.dp))
         ExposedDropdownMenu(
@@ -138,19 +141,13 @@ fun AddExercise(
             label = "Muscle"
         )
         Spacer(modifier = Modifier.height(20.dp))
-        TransparentHintTextField(
-            text = exerciseWeight,
-            hint = "Enter exercise weight...",
-            isHintVisible = isExerciseWeightHintVisible,
-            onValueChanged = onExerciseContentChanged,
-            onFocusChanged = onExerciseContentFocusChanged,
-            singleLine = false,
-            textStyle = TextStyle(fontSize = 20.sp, color = Color.White),
+        TextField(
+            value = exerciseWeight,
+            onValueChange = onExerciseContentChanged,
+            label = { Text("Weight") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-            modifier = Modifier
-                .width(100.dp)
-                .background(color = Color.DarkGray, shape = RoundedCornerShape(5.dp))
-                .padding(15.dp)
+            singleLine = true,
+            modifier = Modifier.width(80.dp)
         )
     }
 }
@@ -166,7 +163,7 @@ fun ScreenPreview() {
             exerciseName = "Exercise:",
             isExerciseNameVisible = false,
             onExerciseChanged = {},
-            exerciseWeight = "Test 2",
+            exerciseWeight = "32",
             isExerciseWeightHintVisible = false,
             onExerciseNameFocusChanged = {},
             onExerciseContentChanged = {},
