@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -56,13 +57,13 @@ import com.uhc.gymtrack.android.uicomponents.floatingbutton.fabOption
 import com.uhc.gymtrack.presentation.BabyBlueHex
 
 @OptIn(
-    ExperimentalFoundationApi::class, ExperimentalAnimationApi::class,
+    ExperimentalFoundationApi::class,
+    ExperimentalAnimationApi::class,
     ExperimentalMaterial3Api::class
 )
 @Composable
 fun ExerciseListScreen(
-    navController: NavController,
-    viewModel: ExerciseListViewModel = hiltViewModel()
+    navController: NavController, viewModel: ExerciseListViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     var openDialog by remember { mutableStateOf(false) }
@@ -72,46 +73,30 @@ fun ExerciseListScreen(
         viewModel.loadMuscles()
     }
 
-    Scaffold(
-        floatingActionButton = {
-            MultiFloatingActionButton(
-                items = listOf(
-                    MultiFabItem(
-                        id = 1,
-                        iconRes = ic_exercise,
-                        label = "Add Exercise"
-                    ),
-                    MultiFabItem(
-                        id = 2,
-                        iconRes = ic_muscle,
-                        label = "Add Muscle"
-                    ),
-                    MultiFabItem(
-                        id = 3,
-                        iconRes = ic_menu_view,
-                        label = "Filter"
-                    )
-                ),
-                fabIcon = FabIcon(iconRes = ic_menu_save, iconRotate = 45f),
-                onFabItemClicked = {
-                    when (it.id) {
-                        1 -> navController.navigate("exercise_detail/-1L")
-                        2 -> navController.navigate("muscle_detail/-1L")
-                        3 -> openDialog = true
-                    }
-                },
-                fabOption = fabOption(showLabel = true)
-            )
-        }
-    ) { padding ->
+    Scaffold(floatingActionButton = {
+        MultiFloatingActionButton(
+            items = listOf(
+                MultiFabItem(id = 1, iconRes = ic_exercise, label = "Add Exercise"),
+                MultiFabItem(id = 2, iconRes = ic_muscle, label = "Add Muscle"),
+                MultiFabItem(id = 3, iconRes = ic_menu_view, label = "Filter")
+            ),
+            fabIcon = FabIcon(iconRes = ic_menu_save, iconRotate = 45f),
+            onFabItemClicked = {
+                when (it.id) {
+                    1 -> navController.navigate("exercise_detail/-1L")
+                    2 -> navController.navigate("muscle_detail/-1L")
+                    3 -> openDialog = true
+                }
+            }, fabOption = fabOption(showLabel = true)
+        )
+    }) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
         ) {
             Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
+                modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
             ) {
                 HideableSearchTextField(
                     text = state.searchText,
@@ -124,24 +109,18 @@ fun ExerciseListScreen(
                         .height(90.dp)
                 )
                 this@Column.AnimatedVisibility(
-                    visible = !state.isSearchActive,
-                    enter = fadeIn(),
-                    exit = fadeOut()
+                    visible = !state.isSearchActive, enter = fadeIn(), exit = fadeOut()
                 ) {
                     Text(
-                        text = "All exercises",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 30.sp
+                        text = "All exercises", fontWeight = FontWeight.Bold, fontSize = 30.sp
                     )
                 }
             }
+
             LazyColumn(
                 modifier = Modifier.weight(1f)
             ) {
-                items(
-                    items = state.exercises,
-                    key = { it.id!! }
-                ) { exercise ->
+                items(items = state.exercises, key = { it.id!! }) { exercise ->
                     ExerciseItem(
                         exercise = exercise,
                         backgroundColor = Color(exercise.muscle?.colorHex ?: BabyBlueHex),
@@ -159,11 +138,18 @@ fun ExerciseListScreen(
                 }
             }
         }
+
+        LazyRow {
+            items(items = state.musclesFiltered, key = { it.id!! }) { muscle ->
+                FilterItem(text = muscle.name, onClose = {
+                    viewModel.onMuscleFilterSelected(muscle.id, false)
+                }, onChipClicked = { openDialog = true })
+            }
+        }
     }
 
     if (openDialog) {
-        AlertDialog(
-            onDismissRequest = { openDialog = false },
+        AlertDialog(onDismissRequest = { openDialog = false },
             icon = { Icon(imageVector = Icons.Filled.List, contentDescription = "Filter") },
             title = { Text(text = "Filter") },
             text = {
@@ -171,58 +157,42 @@ fun ExerciseListScreen(
                     columns = StaggeredGridCells.Fixed(count = 3),
                     horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
                     verticalItemSpacing = 8.dp,
-                )
-                {
+                ) {
                     itemsIndexed(state.musclesList) { _, muscle ->
                         var selected by remember {
-                            mutableStateOf(
-                                viewModel.checkMuscleFilterSelected(
-                                    muscle.id
-                                )
-                            )
+                            mutableStateOf(viewModel.checkMuscleFilterSelected(muscle.id))
                         }
 
-                        FilterChip(
-                            selected = !selected,
-                            onClick = {
-                                selected = !selected
-                                viewModel.onMuscleFilterSelected(muscle.id, selected)
-                            },
-                            label = { Text(muscle.name) },
-                            leadingIcon = if (selected) {
-                                {
-                                    Icon(
-                                        imageVector = Icons.Filled.Done,
-                                        contentDescription = muscle.name,
-                                        modifier = Modifier.size(FilterChipDefaults.IconSize)
-                                    )
-                                }
-                            } else {
-                                null
-                            },
-                            modifier = Modifier.wrapContentSize()
-                        )
+                        FilterChip(selected = !selected, onClick = {
+                            selected = !selected
+                            viewModel.onMuscleFilterSelected(muscle.id, selected)
+                        }, label = { Text(muscle.name) }, leadingIcon = if (selected) {
+                            {
+                                Icon(
+                                    imageVector = Icons.Filled.Done,
+                                    contentDescription = muscle.name,
+                                    modifier = Modifier.size(FilterChipDefaults.IconSize)
+                                )
+                            }
+                        } else {
+                            null
+                        }, modifier = Modifier.wrapContentSize())
 
                     }
                 }
             },
             confirmButton = {
-                TextButton(
-                    onClick = { openDialog = false }
-                ) {
+                TextButton(onClick = { openDialog = false }) {
                     Text("Confirm")
                 }
             },
             dismissButton = {
-                TextButton(
-                    onClick = {
-                        viewModel.onMuscleFilterCanceled()
-                        openDialog = false
-                    }
-                ) {
+                TextButton(onClick = {
+                    viewModel.onMuscleFilterCanceled()
+                    openDialog = false
+                }) {
                     Text("Cancel")
                 }
-            }
-        )
+            })
     }
 }

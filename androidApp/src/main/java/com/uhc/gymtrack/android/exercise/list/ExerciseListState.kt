@@ -9,4 +9,6 @@ data class ExerciseListState(
     val isSearchActive: Boolean = false,
     val musclesList: List<Muscle> = emptyList(),
     val muscleIdsFilter: List<Long> = emptyList()
-)
+) {
+    val musclesFiltered = musclesList.filter { muscleIdsFilter.contains(it.id) }
+}

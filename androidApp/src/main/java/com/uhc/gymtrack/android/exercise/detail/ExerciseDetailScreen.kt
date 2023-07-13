@@ -45,8 +45,6 @@ fun ExerciseDetailScreen(
     val muscleState by viewModel.muscleState.collectAsState()
     val hasExerciseBeenSaved by viewModel.hasExerciseBeenSaved.collectAsState()
 
-    val pattern = remember { Regex("^\\d+\$") } ///todo util
-
     LaunchedEffect(key1 = hasExerciseBeenSaved) {
         if (hasExerciseBeenSaved) {
             navController.popBackStack()
@@ -103,6 +101,8 @@ fun AddExercise(
     onMuscleSelectedChanged: (Long) -> Unit,
     muscleColor: Long
 ) {
+    val pattern = remember { Regex("^\\d+\$") } ///todo util
+
     Column(
         modifier = Modifier
             .background(Color(muscleColor))
@@ -161,32 +161,3 @@ fun ScreenPreview() {
         )
     }
 }
-
-// TODO InputChip, future implementation
-/*@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun FilterItem(
-    text: String,
-    onClose: () -> Unit,
-) {
-    InputChip(
-        selected = false,
-        modifier = Modifier
-            .padding(all = 8.dp)
-            .clickable { onClose() },
-        label = { Text(text) },
-        trailingIcon = {
-            IconButton(onClick = onClose) {
-                Icon(Icons.Filled.Close, contentDescription = "Close")
-            }
-        },
-        onClick = {},
-    )
-}
-
-// TODO InputChip, future implementation
-@Preview
-@Composable
-fun PreviewFilterItem() {
-    FilterItem(text = "Back", onClose = {})
-}*/
