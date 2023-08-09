@@ -11,27 +11,27 @@ class SqlDelightExerciseDataSource(db: ExerciseDatabase) : ExerciseDataSource {
 
     override suspend fun insertExercise(exercise: Exercise) {
 
-        /** Insert Exercise */
-        queries.insertExercise(
-            id = exercise.id,
-            name = exercise.name,
-            created = DateTimeUtil.toEpochMillis(exercise.created),
-            modified = DateTimeUtil.toEpochMillis(exercise.modified),
-            muscleId = exercise.muscle?.id ?: 0
-        )
-
-        val exerciseId = queries.lastInsertRowId().executeAsOne()/*.execute().getLong(0)*/
-
         /** Insert Weight */
         exercise.weight.apply {
             queries.insertWeight(
                 id = id,
                 weight = weight,
                 unit = unit,
-                created = DateTimeUtil.toEpochMillis(created),
-                exerciseId = exerciseId
+                created = DateTimeUtil.toEpochMillis(created)
             )
         }
+
+        val weightId = queries.lastInsertRowId().executeAsOne()
+
+        /** Insert Exercise */
+        queries.insertExercise(
+            id = exercise.id,
+            name = exercise.name,
+            created = DateTimeUtil.toEpochMillis(exercise.created),
+            modified = DateTimeUtil.toEpochMillis(exercise.modified),
+            muscleId = exercise.muscle?.id ?: 0,
+            weightId = weightId
+        )
     }
 
     override suspend fun getExerciseById(id: Long): Exercise? {

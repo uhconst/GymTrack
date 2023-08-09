@@ -4,7 +4,9 @@ CREATE TABLE exerciseEntity(
     created INTEGER NOT NULL,
     modified INTEGER NOT NULL,
     muscleId INTEGER NOT NULL,
-    FOREIGN KEY (muscleId) REFERENCES muscleEntity(id)
+    weightId INTEGER NOT NULL,
+    FOREIGN KEY (muscleId) REFERENCES muscleEntity(id),
+    FOREIGN KEY (weightId) REFERENCES weightsEntity(id)
 );
 
 CREATE TABLE muscleEntity(
@@ -20,9 +22,7 @@ CREATE TABLE weightsEntity(
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     weight REAL NOT NULL,
     unit TEXT NOT NULL,
-    created INTEGER NOT NULL,
-    exerciseId INTEGER,
-    FOREIGN KEY (exerciseId) REFERENCES exerciseEntity(id)
+    created INTEGER NOT NULL
 );
 
 insertExercise:
@@ -32,8 +32,10 @@ INTO exerciseEntity(
     name,
     created,
     modified,
-    muscleId
-) VALUES(?, ?, ?, ?, ?);
+    muscleId,
+    weightId
+) VALUES(?, ?, ?, ?, ?, ?);
+
 
 insertWeight:
 INSERT OR REPLACE
@@ -41,9 +43,8 @@ INTO weightsEntity(
     id,
     weight,
     unit,
-    created,
-    exerciseId
-) VALUES(?, ?, ?, ?, ?);
+    created
+) VALUES(?, ?, ?, ?);
 
 insertMuscle:
 INSERT OR REPLACE
@@ -61,14 +62,14 @@ SELECT *
 FROM exerciseEntity
 INNER JOIN muscleEntity
 INNER JOIN weightsEntity
-WHERE exerciseEntity.muscleId = muscleEntity.id AND exerciseEntity.id = weightsEntity.exerciseId;
+WHERE exerciseEntity.muscleId = muscleEntity.id AND exerciseEntity.weightId = weightsEntity.id;
 
 getExerciseById:
 SELECT *
 FROM exerciseEntity
 INNER JOIN muscleEntity
 INNER JOIN weightsEntity
-WHERE exerciseEntity.id = ? AND exerciseEntity.muscleId = muscleEntity.id AND exerciseEntity.id = weightsEntity.exerciseId;
+WHERE exerciseEntity.id = ? AND exerciseEntity.muscleId = muscleEntity.id AND exerciseEntity.weightId = weightsEntity.id;
 
 deleteExerciseById:
 DELETE FROM exerciseEntity
