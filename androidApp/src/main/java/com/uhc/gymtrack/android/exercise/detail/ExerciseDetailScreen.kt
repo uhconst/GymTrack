@@ -59,7 +59,7 @@ fun ExerciseDetailScreen(
             exerciseName = state.exerciseName,
             onExerciseChanged = viewModel::onExerciseChanged,
             exerciseWeight = state.exerciseWeight.toString(),
-            onExerciseContentChanged = viewModel::onExerciseContentChanged,
+            onExerciseContentChanged = viewModel::onExerciseWeightChanged,
             musclesList = muscleState.musclesList.map {
                 DropdownMenuItem(
                     id = it.id ?: 0,

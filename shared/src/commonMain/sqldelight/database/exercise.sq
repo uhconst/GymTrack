@@ -4,9 +4,7 @@ CREATE TABLE exerciseEntity(
     created INTEGER NOT NULL,
     modified INTEGER NOT NULL,
     muscleId INTEGER NOT NULL,
-    weightId INTEGER NOT NULL,
-    FOREIGN KEY (muscleId) REFERENCES muscleEntity(id),
-    FOREIGN KEY (weightId) REFERENCES weightsEntity(id)
+    FOREIGN KEY (muscleId) REFERENCES muscleEntity(id)
 );
 
 CREATE TABLE muscleEntity(
@@ -22,7 +20,16 @@ CREATE TABLE weightsEntity(
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     weight REAL NOT NULL,
     unit TEXT NOT NULL,
-    created INTEGER NOT NULL
+    created INTEGER NOT NULL,
+    exerciseId INTEGER,
+    FOREIGN KEY (exerciseId) REFERENCES exerciseEntity(id)
+);
+
+CREATE TABLE exerciseWeightBridgeEntity(
+    exerciseId INTEGER NOT NULL PRIMARY KEY,
+    weightId INTEGER NOT NULL,
+    FOREIGN KEY (exerciseId) REFERENCES exerciseEntity(id),
+    FOREIGN KEY (weightId) REFERENCES weightsEntity(id)
 );
 
 insertExercise:
@@ -32,9 +39,8 @@ INTO exerciseEntity(
     name,
     created,
     modified,
-    muscleId,
-    weightId
-) VALUES(?, ?, ?, ?, ?, ?);
+    muscleId
+) VALUES(?, ?, ?, ?, ?);
 
 
 insertWeight:
@@ -43,8 +49,9 @@ INTO weightsEntity(
     id,
     weight,
     unit,
-    created
-) VALUES(?, ?, ?, ?);
+    created,
+   exerciseId
+) VALUES(?, ?, ?, ?, ?);
 
 insertMuscle:
 INSERT OR REPLACE
@@ -57,19 +64,33 @@ INTO muscleEntity(
     modified
 ) VALUES(?, ?, ?, ?, ?, ?);
 
+insertExerciseWeightBridge:
+INSERT OR REPLACE
+INTO exerciseWeightBridgeEntity(
+    exerciseId,
+    weightId
+) VALUES(?, ?);
+
 getAllExercises:
 SELECT *
 FROM exerciseEntity
 INNER JOIN muscleEntity
+INNER JOIN exerciseWeightBridgeEntity
 INNER JOIN weightsEntity
-WHERE exerciseEntity.muscleId = muscleEntity.id AND exerciseEntity.weightId = weightsEntity.id;
+WHERE exerciseEntity.muscleId = muscleEntity.id
+AND exerciseEntity.id = exerciseWeightBridgeEntity.exerciseId
+AND weightsEntity.id = exerciseWeightBridgeEntity.weightId;
 
 getExerciseById:
 SELECT *
 FROM exerciseEntity
 INNER JOIN muscleEntity
+INNER JOIN exerciseWeightBridgeEntity
 INNER JOIN weightsEntity
-WHERE exerciseEntity.id = ? AND exerciseEntity.muscleId = muscleEntity.id AND exerciseEntity.weightId = weightsEntity.id;
+WHERE exerciseEntity.id = ?
+AND exerciseEntity.muscleId = muscleEntity.id
+AND exerciseEntity.id = exerciseWeightBridgeEntity.exerciseId
+AND weightsEntity.id = exerciseWeightBridgeEntity.weightId;
 
 deleteExerciseById:
 DELETE FROM exerciseEntity

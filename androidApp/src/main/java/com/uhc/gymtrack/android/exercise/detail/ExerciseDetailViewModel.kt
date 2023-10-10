@@ -24,13 +24,20 @@ class ExerciseDetailViewModel @Inject constructor(
 
     private val exerciseName = savedStateHandle.getStateFlow("exerciseName", "")
     private val exerciseWeight = savedStateHandle.getStateFlow("exerciseWeight", 0.00)
+    private val originalExerciseWeight =
+        savedStateHandle.getStateFlow("originalExerciseWeight", 0.00)
     private val muscleColor = savedStateHandle.getStateFlow(
         "muscleColor",
         Exercise.generateRandomColor()
     )
-    private val created = savedStateHandle.getStateFlow("created", null)
+    private val createdExerciseDate = savedStateHandle.getStateFlow("createdExerciseDate", null)
+    private val createdWeightDate = savedStateHandle.getStateFlow("createdWeightDate", null)
+    private val weightId = savedStateHandle.getStateFlow("weightId", 0L)
     private val exerciseMuscleId = savedStateHandle.getStateFlow("exerciseMuscleId", 0L)
     private val musclesList = savedStateHandle.getStateFlow<List<Muscle>?>("musclesList", null)
+
+    private val hasWeightChanged: Boolean
+        get() = weightId.value == 0L || originalExerciseWeight.value != exerciseWeight.value
 
     val state = combine(
         exerciseName,
@@ -73,8 +80,11 @@ class ExerciseDetailViewModel @Inject constructor(
                 exerciseDataSource.getExerciseById(existingExerciseId)?.let { exercise ->
                     savedStateHandle["exerciseName"] = exercise.name
                     savedStateHandle["exerciseWeight"] = exercise.weight.weight
+                    savedStateHandle["originalExerciseWeight"] = exercise.weight.weight
                     savedStateHandle["muscleColor"] = exercise.muscle?.colorHex
-//                    savedStateHandle["created"] = exercise.created
+                    /*                    savedStateHandle["createdExerciseDate"] = exercise.created // todo issue converting it back
+                                        savedStateHandle["createdWeightDate"] = exercise.weight.created*/
+                    savedStateHandle["weightId"] = exercise.weight.id
                     savedStateHandle["exerciseMuscleId"] = exercise.muscle?.id
                 }
             }
@@ -89,7 +99,7 @@ class ExerciseDetailViewModel @Inject constructor(
         savedStateHandle["exerciseName"] = text
     }
 
-    fun onExerciseContentChanged(text: String) {
+    fun onExerciseWeightChanged(text: String) {
         savedStateHandle["exerciseWeight"] = text.toDouble()
     }
 
@@ -106,15 +116,16 @@ class ExerciseDetailViewModel @Inject constructor(
                     id = existingExerciseId,
                     name = exerciseName.value,
                     weight = Weight(
-                        id = null,
+                        id = null, // This needs to be null to always create a new entry if $hasWeightChanged, never update
                         weight = exerciseWeight.value,
                         unit = UNIT_KG,
-                        created = DateTimeUtil.now()
+                        created = createdWeightDate.value ?: DateTimeUtil.now()
                     ),
-                    created = created.value ?: DateTimeUtil.now(),
+                    created = createdExerciseDate.value ?: DateTimeUtil.now(),
                     modified = DateTimeUtil.now(),
                     muscle = exerciseMuscle
-                )
+                ),
+                hasWeightChanged
             )
             _hasExerciseBeenSaved.value = true
         }

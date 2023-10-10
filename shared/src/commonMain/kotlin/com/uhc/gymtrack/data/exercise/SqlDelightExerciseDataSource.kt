@@ -9,29 +9,41 @@ class SqlDelightExerciseDataSource(db: ExerciseDatabase) : ExerciseDataSource {
 
     private val queries = db.exerciseQueries
 
-    override suspend fun insertExercise(exercise: Exercise) {
+    override suspend fun insertExercise(exercise: Exercise, weightChanged: Boolean) {
 
-        /** Insert Weight */
-        exercise.weight.apply {
-            queries.insertWeight(
-                id = id,
-                weight = weight,
-                unit = unit,
-                created = DateTimeUtil.toEpochMillis(created)
-            )
-        }
-
-        val weightId = queries.lastInsertRowId().executeAsOne()
-
+        // Todo this will always update the weight,
+        //  need to save it as a new entry ONLY when it changes
         /** Insert Exercise */
         queries.insertExercise(
             id = exercise.id,
             name = exercise.name,
             created = DateTimeUtil.toEpochMillis(exercise.created),
             modified = DateTimeUtil.toEpochMillis(exercise.modified),
-            muscleId = exercise.muscle?.id ?: 0,
-            weightId = weightId
+            muscleId = exercise.muscle?.id ?: 0
         )
+
+        if (weightChanged) {
+            val exerciseId = queries.lastInsertRowId().executeAsOne()
+
+            /** Insert Weight */
+            exercise.weight.apply {
+                queries.insertWeight(
+                    id = id,
+                    weight = weight,
+                    unit = unit,
+                    created = DateTimeUtil.toEpochMillis(created),
+                    exerciseId = exerciseId
+                )
+            }
+
+            val weightId = queries.lastInsertRowId().executeAsOne()
+
+            /** Insert Exercise Weight bridge table*/
+            queries.insertExerciseWeightBridge(
+                exerciseId = exerciseId,
+                weightId = weightId
+            )
+        }
     }
 
     override suspend fun getExerciseById(id: Long): Exercise? {
